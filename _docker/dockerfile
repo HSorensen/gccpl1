@@ -58,3 +58,4 @@ COPY --from=build_antlr /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.j
 
 ENV CLASSPATH=".:/usr/local/lib/antlr4-4.7.2-SNAPSHOT-complete.jar:$CLASSPATH"
 RUN echo "alias antlr4='java -jar /usr/local/lib/antlr4-4.7.2-SNAPSHOT-complete.jar'" > /etc/profile.d/antlr4_alias.sh
+RUN echo "alias grun='java org.antlr.v4.gui.TestRig'" >> /etc/profile.d/antlr4_alias.sh
