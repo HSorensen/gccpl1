@@ -1,0 +1,34 @@
+FROM alpine as build_antlr
+# build antlr tool based on antlr fork:
+# https://github.com/HSorensen/antlr4.git
+# Result is the antlr-tool in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
+
+# Prepare environment
+ENV ENV=/etc/profile
+RUN cp /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
+
+# Install Base
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache wget curl unzip tree
+RUN apk add --no-cache git
+
+# Install Node.js
+#RUN apk add --no-cache nodejs
+#RUN apk add --no-cache npm
+#RUN apk add --no-cache yarn
+#RUN npm update --global
+
+# Install Java and Maven needed to build antlr
+RUN apk add --no-cache openjdk11
+RUN apk add --no-cache maven
+
+# Prepare runtime enviroment
+RUN mkdir /opt/antlr4
+
+# Build antlr tool
+# See https://github.com/antlr/antlr4/blob/master/doc/building-antlr.md
+RUN git clone -b lexerinclude --single-branch https://github.com/HSorensen/antlr4.git /opt/antlr4
+RUN cd /opt/antlr4 && mvn -DskipTests install >mvn-install.log
+# Antlr Tool is in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
+# run with: java  -jar ./antlr4-4.7.2-SNAPSHOT-complete.jar
