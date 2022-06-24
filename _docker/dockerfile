@@ -48,7 +48,7 @@ RUN apk add --no-cache wget curl unzip tree
 RUN apk add --no-cache openjdk11
 
 # Prepare runtime
-COPY --from=build_antlr /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar /usr/local/lib/antlr4-4.7.2-SNAPSHOT-complete.jar
+COPY --from=build_antlr4 /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar /usr/local/lib/antlr4-4.7.2-SNAPSHOT-complete.jar
 
 ENV CLASSPATH=".:/usr/local/lib/antlr4-4.7.2-SNAPSHOT-complete.jar:$CLASSPATH"
 RUN echo "alias antlr4='java -jar /usr/local/lib/antlr4-4.7.2-SNAPSHOT-complete.jar'" > /etc/profile.d/antlr4_alias.sh
