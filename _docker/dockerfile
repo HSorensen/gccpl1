@@ -1,9 +1,8 @@
 ARG ANTLR_TOOL=antlr4-4.7.2-SNAPSHOT-complete.jar
-FROM alpine as build_antlr4
-# build antlr tool based on antlr fork:
-# https://github.com/HSorensen/antlr4.git
-# Result is the antlr-tool in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
-
+#
+# Alpine - base image
+#
+FROM alpine as base
 # Prepare environment
 ENV ENV=/etc/profile
 RUN cp /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
@@ -12,13 +11,16 @@ RUN cp /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
 RUN apk update
 RUN apk upgrade
 RUN apk add --no-cache wget curl unzip tree
+RUN apk add --no-cache nano
 RUN apk add --no-cache git
 
-# Install Node.js
-#RUN apk add --no-cache nodejs
-#RUN apk add --no-cache npm
-#RUN apk add --no-cache yarn
-#RUN npm update --global
+#
+# antlr4 - Build
+#
+FROM base as build_antlr4
+# build antlr tool based on antlr fork:
+# https://github.com/HSorensen/antlr4.git
+# Result is the antlr-tool in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
 
 # Install Java and Maven needed to build antlr
 RUN apk add --no-cache openjdk11
@@ -34,17 +36,12 @@ RUN cd /opt/antlr4 && mvn -DskipTests install >mvn-install.log
 # Antlr Tool is in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
 # run with: java  -jar ./antlr4-4.7.2-SNAPSHOT-complete.jar
 
-FROM alpine as antlr4
+
+#
+# antlr4 - Runtime
+#
+FROM base as antlr4
 ARG ANTLR_TOOL
-
-# Prepare environment
-ENV ENV=/etc/profile
-RUN cp /etc/profile.d/color_prompt.sh.disabled /etc/profile.d/color_prompt.sh
-
-# Install Base
-RUN apk update
-RUN apk upgrade
-RUN apk add --no-cache wget curl unzip tree
 
 # Install Java
 RUN apk add --no-cache openjdk11
