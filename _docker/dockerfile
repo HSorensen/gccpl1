@@ -1,4 +1,4 @@
-FROM alpine as build_antlr
+FROM alpine as build_antlr4
 # build antlr tool based on antlr fork:
 # https://github.com/HSorensen/antlr4.git
 # Result is the antlr-tool in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
@@ -33,7 +33,7 @@ RUN cd /opt/antlr4 && mvn -DskipTests install >mvn-install.log
 # Antlr Tool is in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
 # run with: java  -jar ./antlr4-4.7.2-SNAPSHOT-complete.jar
 
-FROM alpine as antlr
+FROM alpine as antlr4
 
 # Prepare environment
 ENV ENV=/etc/profile
