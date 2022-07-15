@@ -1,25 +1,9 @@
 lexer grammar pl1lexer;
-@header { 
-package com.nttdata.imagn.antlr; 
-}
-@members {
-    public static final int CHANNEL_UNKNOWN  = 1;
-    public static final int CHANNEL_COMMENTS = 2;
-    private String toHex(String s){ 
-        StringBuffer hex = new StringBuffer();
-        char[] raw = s.toCharArray();
-        for (int i=0;i<raw.length;i++) {
-          if     (raw[i]<=0x000F) { hex.append("000"); }
-          else if(raw[i]<=0x00FF) { hex.append("00" ); }
-          else if(raw[i]<=0x0FFF) { hex.append("0"  ); }
-          hex.append(Integer.toHexString(raw[i]).toUpperCase());
-        }
-        return hex.toString();
-    }
-}
+
+channels { CommentsChannel, UnknownChannel, EmbedChannel }
 
 PP_INCLUDE      : '%' WSP* I N C L U D E WSP (.)*? ';' 
-                   { /*System.out.println(">>> Include >"+getText()+"<");*/
+                   { 
                      performIncludeSourceFile(getText()); 
                      skip();
                    };
@@ -343,7 +327,7 @@ XU              : X U;
 
 ZERODIVIDE      :(Z E R O D I V I D E) | (Z D I V); 
 
-COMMENT: '/*' (.)*? '*/' ->channel(CHANNEL_COMMENTS) ; 
+COMMENT: '/*' (.)*? '*/' ->channel(CommentsChannel) ; 
 STR_CONSTANT: ( '\'' ( ~'\'' | '\'\'' )* '\'')|( '"' ( ~'"' | '""' )* '"');
 
 NUM: NBR ;
@@ -388,10 +372,7 @@ SEMI_:';';
 VARNAME: (CHR|LET)(CHR|LET|[0-9])* ;
 WSP: (' '|'\t'|'\n'|'\r')+ -> skip;
 
-UNKNOWN : .  //->channel(CHANNEL_UNKNOWN) ; 
-          { //System.err.println("PL1Lexer error Unknown char>"+getText()+"<>"+toHex(getText()));
-            setChannel(CHANNEL_UNKNOWN);  
-          };
+UNKNOWN : .  ->channel(UnknownChannel) ; 
 
 fragment NBR: [0-9][0-9_]*;
 fragment LET: [A-Za-z]+;
