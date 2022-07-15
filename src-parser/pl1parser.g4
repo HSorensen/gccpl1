@@ -1,8 +1,7 @@
-parser grammar pl1parser;
-@header {
-package com.nttdata.imagn.antlr; 
-}
-options { tokenVocab=pl1lexer; }
+parser grammar Pl1Parser;
+
+options { tokenVocab=Pl1Lexer; }
+
 pl1pgm: pl1stmtlist 
         EOF
     ;

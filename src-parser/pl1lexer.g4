@@ -1,4 +1,4 @@
-lexer grammar pl1lexer;
+lexer grammar Pl1Lexer;
 
 channels { CommentsChannel, UnknownChannel, EmbedChannel }
 
