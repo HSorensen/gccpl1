@@ -1,4 +1,4 @@
-ARG ANTLR_TOOL=antlr4-4.7.2-SNAPSHOT-complete.jar
+ARG ANTLR_TOOL=antlr4-4.10.2-SNAPSHOT-complete.jar
 #
 # Alpine - base image
 #
@@ -32,7 +32,7 @@ RUN mkdir /opt/antlr4
 # Build antlr tool
 # See https://github.com/antlr/antlr4/blob/master/doc/building-antlr.md
 RUN git clone -b lexerinclude --single-branch https://github.com/HSorensen/antlr4.git /opt/antlr4
-RUN cd /opt/antlr4 && mvn -DskipTests install >mvn-install.log
+RUN cd /opt/antlr4 && mvn -DskipTests install --projects tool --also-make >mvn-install.log
 # Antlr Tool is in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
 # run with: java  -jar ./antlr4-4.7.2-SNAPSHOT-complete.jar
 
@@ -43,12 +43,18 @@ RUN cd /opt/antlr4 && mvn -DskipTests install >mvn-install.log
 FROM base as antlr4
 ARG ANTLR_TOOL
 
-# Install Java
-RUN apk add --no-cache openjdk11
-
 # Prepare runtime
 COPY --from=build_antlr4 /opt/antlr4/tool/target/${ANTLR_TOOL} /usr/local/lib/${ANTLR_TOOL}
 
-ENV CLASSPATH=".:/usr/local/lib/${ANTLR_TOOL}:$CLASSPATH"
-RUN echo "alias antlr4='java -jar /usr/local/lib/${ANTLR_TOOL}'" > /etc/profile.d/antlr4_alias.sh
-RUN echo "alias grun='java org.antlr.v4.gui.TestRig'" >> /etc/profile.d/antlr4_alias.sh
+# Install Java
+RUN apk add --no-cache openjdk11
+
+# Install GCC and G++
+RUN apk add --no-cache gcc g++ gdb
+RUN apk add --no-cache cmake make pkgconf util-linux-dev
+
+# Setup runtime alias and classpath
+RUN echo "alias antlr4='java -jar /usr/local/lib/${ANTLR_TOOL}'" > /etc/profile.d/antlr4_alias.sh \
+ && echo "alias grun='java org.antlr.v4.gui.TestRig'" >> /etc/profile.d/antlr4_alias.sh \
+ && echo "export CLASSPATH='.:/usr/local/lib/${ANTLR_TOOL}:$CLASSPATH'" >> /etc/profile.d/antlr4_alias.sh
+
