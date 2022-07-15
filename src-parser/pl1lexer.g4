@@ -280,7 +280,7 @@ SIGNAL          : S I G N A L;
 SIGNED          : S I G N E D ;
 SIS             : S I S ;
 SIZE            : S I Z E;
-SKIP            : S K I P;
+SKIP_            : S K I P;
 SNAP            : S N A P; // specialKeyWord(SNAP,SNAP,VARNAME);
 STATIC          : S T A T I C;
 STDCALL         : S T D C A L L;

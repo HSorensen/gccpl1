@@ -490,8 +490,8 @@ putoptionlist:
 putoption:
         FILE '(' varnameref ')'
     |   PAGE
-    |   SKIP
-    |   SKIP '(' expr ')'
+    |   SKIP_
+    |   SKIP_ '(' expr ')'
     |   LINE '(' expr ')'
     |   STRING '(' varnameref ')'
     |   dataspecification
@@ -555,8 +555,8 @@ getoption:
         FILE '(' varnameref ')'
     |   COPY  '(' varnameref ')'
     |   PAGE
-    |   SKIP
-    |   SKIP   '(' expr ')'
+    |   SKIP_
+    |   SKIP_   '(' expr ')'
     |   STRING '(' expr ')'
     |   dataspecification
     ;
@@ -584,8 +584,8 @@ editformatexpr:
     |   LINE '(' expr ')'
     |   COLUMN '(' expr ')'
     |   PAGE
-    |   SKIP
-    |   SKIP '(' expr ')'
+    |   SKIP_
+    |   SKIP_ '(' expr ')'
     ;
 
 realformatexpr: 
@@ -1022,7 +1022,7 @@ varname_kw:
     | SIGNAL
     | SIGNED
     | SIS
-    | SKIP
+    | SKIP_
     | SNAP // special
     | STATIC
     | STDCALL
@@ -1432,7 +1432,7 @@ environmentspec:
 
     |   SCALARVARYING
     |   SIS
-    |   SKIP
+    |   SKIP_
     |   STRINGVALUE
 
     |   TOTAL
