@@ -9,9 +9,14 @@
 //
 //  Created by Mike Lischke on 13.03.16.
 //
+// NOTE
+// - When using docker, mount this file via the --volume option, eg:
+//   docker run --rm --hostname gccpli -it -v $PWD/workdir:/workdir -v $PWD/src-antlr/src-parser/main.cpp:/src-antlr/src-parser/main.cpp itsme/gccpl1x
 
 #include <iostream>
 #include <sys/stat.h>
+#include <iterator>
+#include <regex>
 
 
 #include "antlr4-runtime.h"
@@ -21,6 +26,43 @@
 using namespace antlrcpptest;
 using namespace antlr4;
 
+  
+class Myincl: public LexerScannerIncludeSource {
+    /*
+  class ANTLR4CPP_PUBLIC LexerScannerIncludeSource
+{
+    public:
+        virtual ~LexerScannerIncludeSource() {}
+        virtual CharStream * embedSource(const std::string &lexerText);
+        virtual CharStream * embedSource(const std::string &currentName, size_t line, size_t offset, const std::string &lexerText);
+};
+}
+
+//	TODO: public LexerScannerIncludeSource _lexerScannerIncludeSource = new LexerScannerIncludeSourceImpl();
+   LexerScannerIncludeSource * _lexerScannerIncludeSource = new LexerScannerIncludeSource;
+  */
+
+  public:
+        CharStream * embedSource(const std::string &lexerText) {
+          std::cout << std::string("!!embedSource ") << lexerText << std::endl;
+          // lexerText contains "%include name ;"
+          std::regex e ("(%[ ]*include[ ]+)([a-zA-Z0-9_#@$|.]+)([ ]*;)");
+          std::smatch sm;
+          std::regex_match (lexerText,sm,e);
+          std::cout << " 0 " << sm[0] << std::endl;
+          std::cout << " 1 " << sm[1] << std::endl;
+          std::cout << " 2 " << sm[2] << std::endl;
+          std::cout << " 3 " << sm[3] << std::endl;
+          if (sm.size()>2) {
+            return LexerScannerIncludeSource::embedSource(sm[2]);
+          }
+
+          // TODO: Throw error
+          return nullptr ;
+        }
+        //virtual CharStream * embedSource(const std::string &currentName, size_t line, size_t offset, const std::string &lexerText);
+
+};
 
 
 int main(int argc, const char **argv) {
@@ -35,27 +77,15 @@ int main(int argc, const char **argv) {
   ANTLRFileStream *input = new ANTLRFileStream();
   input->loadFromFile(lexerText);
 
+  Myincl myincl;
 
   Pl1Lexer lexer(input);
+  lexer.setLexerScannerIncludeSource(&myincl);
   CommonTokenStream tokens(&lexer);
+
 
   // TODO: Set include handler, extend from LexerScannerIncludeSource
   // virtual void setLexerScannerIncludeSource( LexerScannerIncludeSource *lsis);
-  /*
-  class ANTLR4CPP_PUBLIC LexerScannerIncludeSource
-{
-    public:
-        virtual ~LexerScannerIncludeSource() {}
-        virtual CharStream * embedSource(const std::string &lexerText);
-        virtual CharStream * embedSource(const std::string &currentName, size_t line, size_t offset, const std::string &lexerText);
-};
-}
-
-//	TODO: public LexerScannerIncludeSource _lexerScannerIncludeSource = new LexerScannerIncludeSourceImpl();
-   LexerScannerIncludeSource * _lexerScannerIncludeSource = new LexerScannerIncludeSource;
-	
-
-  */
 
   tokens.fill();
   for (auto token : tokens.getTokens()) {
