@@ -471,7 +471,7 @@ openoption:
     |   PRINT
     |   TITLE '(' expr ')'
     |   LINESIZE '(' expr ')'
-    |   PAGESIZE '(' expr ')'
+    |   PAGESIZE_ '(' expr ')'
     |   ENVIRONMENT '(' environmentspeclist ')'
     ;
 
@@ -977,7 +977,7 @@ varname_kw:
     | PACKED
     | PACKED_DECIMAL
     | PAGE
-    | PAGESIZE
+    | PAGESIZE_
     | PARAMETER
     | PASSWORD
     | PICTURE
@@ -1099,7 +1099,7 @@ varname_conditions:
     | INVALIDOP
     | KEY
     | NAME
-    | OVERFLOW
+    | OVERFLOW_
     | PENDING
     | RECORD
     | SIZE
@@ -1108,7 +1108,7 @@ varname_conditions:
     | STRINGSIZE
     | SUBSCRIPTRANGE
     | TRANSMIT
-    | UNDERFLOW
+    | UNDERFLOW_
     | ZERODIVIDE
     ;
 onconditioncommalist:
@@ -1131,7 +1131,7 @@ oncondition:
     |   INVALIDOP
     |   KEY '(' varnameref ')'
     |   NAME '(' varnameref ')'
-    |   OVERFLOW
+    |   OVERFLOW_
     |   PENDING '(' varnameref ')'
     |   RECORD '(' varnameref ')'
     |   SIZE
@@ -1141,7 +1141,7 @@ oncondition:
     |   SUBSCRIPTRANGE
     |   TRANSMIT '(' varnameref ')'
     |   UNDEFINEDFILE '(' varnameref ')'
-    |   UNDERFLOW
+    |   UNDERFLOW_
     |   ZERODIVIDE
     |   VARNAME
     |   varname_kw
@@ -1153,12 +1153,12 @@ precondition:
     |   CONVERSION
     |   FIXEDOVERFLOW
     |   INVALIDOP
-    |   OVERFLOW
+    |   OVERFLOW_
     |   SIZE
     |   STRINGRANGE
     |   STRINGSIZE
     |   SUBSCRIPTRANGE
-    |   UNDERFLOW
+    |   UNDERFLOW_
     |   ZERODIVIDE
     |   NOCHECK
     |   NOCONVERSION
@@ -1271,7 +1271,7 @@ dclio:  BACKWARDS
     |   KEYED
     |   LINESIZE '(' expr ')'
     |   OUTPUT
-    |   PAGESIZE '(' expr ')'
+    |   PAGESIZE_ '(' expr ')'
     |   PRINT
     |   RECORD
     |   SEQUENTIAL
