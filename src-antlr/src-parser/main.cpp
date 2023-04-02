@@ -11,6 +11,8 @@
 //
 
 #include <iostream>
+#include <sys/stat.h>
+
 
 #include "antlr4-runtime.h"
 #include "Pl1Lexer.h"
@@ -19,11 +21,20 @@
 using namespace antlrcpptest;
 using namespace antlr4;
 
-int main(int , const char **) {
-                        //00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000
-                        //01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-  ANTLRInputStream input(" HI: PROC OPTIONS(MAIN); DISPLAY('HELLO WORLD'); END HI;");
-  TLexer lexer(&input);
+int main(int argc, const char **argv) {
+
+ const std::string &lexerText = argv[1] ;
+ struct stat buffer;
+ if (stat(lexerText.c_str(), &buffer)) {
+    std::cerr << std::string("file not found: ") << lexerText << std::endl;
+    return 8;
+  }
+
+  ANTLRFileStream *input = new ANTLRFileStream();
+  input->loadFromFile(lexerText);
+
+
+  Pl1Lexer lexer(input);
   CommonTokenStream tokens(&lexer);
 
   tokens.fill();
@@ -31,8 +42,8 @@ int main(int , const char **) {
     std::cout << token->toString() << std::endl;
   }
 
-  TParser parser(&tokens);
-  tree::ParseTree* tree = parser.main();
+  Pl1Parser parser(&tokens);
+  tree::ParseTree* tree = parser.pl1pgm();
 
   std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
 
