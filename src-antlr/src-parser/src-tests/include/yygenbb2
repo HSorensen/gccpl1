@@ -1,0 +1,16 @@
+
+/* test of include file, included from tests\pl1_test_dcl.pl1 */
+/*  Copyright (C) 2002, 2003 Henrik Sorensen
+
+    This file is part of GNU PL/1.
+
+    GNU PL/1 is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+ 5 a2 fixed bin(31)
+,5 b2 char(12)
+, %include yygenbb3;
+
+

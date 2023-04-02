@@ -1,0 +1,5 @@
+/* Test of DCL in an include statement. */
+
+DCL ( b
+
+/* the rest is in the including source */

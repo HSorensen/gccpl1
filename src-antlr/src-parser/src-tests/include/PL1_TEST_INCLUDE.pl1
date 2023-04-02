@@ -1,0 +1,22 @@
+/* test of include */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+/* using include in dcl */
+dcl 1 yygenbb_1, %include yygenbb ;;
+dcl 1 yygenbb_2, %include yygenbb ;;
+
+ /* this includes two levels */
+dcl 1 yygenbb_3, %include yygenbb1 ;;
+
+/* The following include contains the beginning of a DCL stmt */
+%include PL1_TEST_INCLUDE_hasDCL;
+/* just a comment before the final part of the DCL statement */
+        , a ) fixed bin(31,0);
+

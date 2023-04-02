@@ -1,0 +1,12 @@
+
+/* test of include file, included from tests\pl1_test_misc.pl1 */
+/*  Copyright 2002, 2003 Henrik Sorensen
+
+    This file is part of GNU PL/I.
+
+    GNU PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+dcl b fixed; dcl c decimal(13,0);

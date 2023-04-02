@@ -1,0 +1,16 @@
+  /**  HALF TON CUP  **/
+  /*   PRINTER CONTROL CHARACTERS   */
+  DCL  CTL1   CHAR(3) STATIC INIT('^[W^A');  /* WIDER         */
+  DCL  CTL2   CHAR(1) STATIC INIT('^N');     /* WIDER         */
+  DCL  CTL3   CHAR(1) STATIC INIT('^O');     /* NARROWER      */
+  DCL  CTL4   CHAR(2) STATIC INIT('^[E');    /* EMPHASISED    */
+  DCL  CTL5   CHAR(2) STATIC INIT('^[G');    /* DOUBLE-STRIKE */
+  DCL  CTL1A  CHAR(3) STATIC INIT('^[W^@');  /* WIDER OFF     */
+  DCL  CTL2A  CHAR(1) STATIC INIT('^T');     /* WIDER OFF     */
+  DCL  CTL3A  CHAR(1) STATIC INIT('^R');     /* NARROWER OFF  */
+  DCL  CTL4A  CHAR(2) STATIC INIT('^[F');    /* EMPH. OFF     */
+  DCL  CTL5A  CHAR(2) STATIC INIT('^[H');    /* D.STRIKE OFF  */
+     /*  NOTES - CTL1 STAYS IN FORCE UNTIL CANCELLED                */
+     /*          CTL2 STAYS IN FORCE ONLY UNTIL END OF LINE         */
+     /*        - EMPHASISED GIVES STAGGERED OVERSTRIKE              */
+     /*        - TO GET EXTRA WIDE, CANCEL NARROW AND INVOKE  WIDER */

@@ -1,0 +1,53 @@
+/* test of preprocessor keywords as variablenames */
+
+%DCL (
+  ACTIVATE 
+, BY
+, CHARACTER 
+, DEACTIVATE
+, DECLARE
+, FIXED
+, INCLUDE
+, GOTO
+, NOPRINT
+, NOTE
+, PAGE
+, PRINT
+, REPLACE
+, SKIP
+, VARNAME
+) FIXED;
+
+% ACTIVATE = 0;
+% BY = 0;
+% CHARACTER = 0;
+% DEACTIVATE = 0;
+% DECLARE= 0;
+% FIXED= 0;
+% INCLUDE= 0;
+% GOTO= 0;
+% NOPRINT= 0;
+% NOTE=0;
+% PAGE= 0;
+% PRINT= 0;
+% REPLACE= 0;
+% SKIP= 0;
+% VARNAME= 0;
+
+% ACTIVATE = ACTIVATE + 0;
+% BY = BY + 0;
+% CHARACTER = CHARACTER + 0;
+% DEACTIVATE = DEACTIVATE + 0;
+% DECLARE= DECLARE + 0;
+% FIXED= FIXED + 0;
+% INCLUDE= INCLUDE + 0;
+% GOTO= GOTO + 0;
+% NOPRINT= NOPRINT + 0;
+% NOTE= NOTE + 0;
+% PAGE= PAGE + 0;
+% PRINT= PRINT + 0;
+% REPLACE= REPLACE + 0;
+% SKIP= SKIP + 0;
+% VARNAME= VARNAME + 0;
+
+

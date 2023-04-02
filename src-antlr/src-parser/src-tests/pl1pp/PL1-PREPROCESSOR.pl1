@@ -1,0 +1,104 @@
+%NOTE('I','This is an exciting info comment via the %NOTE preprocessor statement.');
+%NOTE('w','This is an exciting warn comment via the %NOTE preprocessor statement.');
+n=0;
+%DCL A CHAR ;
+%page;
+%DECLARE SX_INFO_STORAGE_MODE CHAR;
+ %SX_INFO_STORAGE_MODE = 'BASED(SX_INFO_PTR)';
+ DECLARE
+        1 SX_INFO SX_INFO_STORAGE_MODE,
+          2 LLC_ARRAY,
+            3 PTR           POINTER,
+            3 EXTENT        FIXED BIN(31),
+            3 MAX_CODE      FIXED BIN(31),
+            3 CURRENT_LOC   FIXED BIN(31),
+          2 TO_NEXT_ANCHOR  FIXED BIN(31);
+
+;
+%Dcl sx_none char;
+%sx_none='SX_NONE';
+%deact sx_none;
+%dcl b fixed;
+%B=0;
+ %SX_INFO_STORAGE_MODE = 'BASED(SX_NONE)';
+  DECLARE
+        1 SX_INFO2 SX_INFO_STORAGE_MODE,
+          2 LLC_ARRAY,
+            3 PTR           POINTER,
+            3 EXTENT        FIXED BIN(31),
+            3 MAX_CODE      FIXED BIN(31),
+            3 CURRENT_LOC   FIXED BIN(31),
+          2 TO_NEXT_ANCHOR  FIXED BIN(31);
+
+;
+
+%sx_none='SX_NEW_NONE';
+%act sx_none;
+ %SX_INFO_STORAGE_MODE = 'BASED(SX_NONE)';
+  DECLARE
+        1 SX_INFO3 SX_INFO_STORAGE_MODE,
+          2 LLC_ARRAY,
+            3 PTR           POINTER,
+            3 EXTENT        FIXED BIN(31),
+            3 MAX_CODE      FIXED BIN(31),
+            3 CURRENT_LOC   FIXED BIN(31),
+          2 TO_NEXT_ANCHOR  FIXED BIN(31);
+
+;
+
+%dcl (ch1,ch2,ch3,ch4) char;
+%ch1='"';
+%ch2="'";
+%ch3="""";
+%ch4='''';
+/*
+put skip list(ch1 string ch1);
+put skip list(ch2 string ch2);
+*/
+
+% /* comment to be ignored */ ;
+
+% replace av by 0;
+% replace nu by '0';
+
+i=av+nu;
+
+%DEACT av;
+i=av+nu;
+%activate av;
+i=av+nu;
+
+%activate av;
+%deact av;
+%deact av;
+
+
+dcl bx fixed ;
+bx=0;
+
+%goto test001;
+%before:;
+bx=bx+1;
+
+%goto skip001;
+%test001:;
+/* will fail until preprocessor scanning gets fixed %goto before; */
+
+%skip001:;
+
+
+%goto after1;
+this is a comment 
+
+%after1:;
+
+e='1';
+
+
+% /* testing the new %DO */;
+%DCL I fixed ;
+%DO I = 1 to 9;
+
+put skip list(i);
+
+%END;

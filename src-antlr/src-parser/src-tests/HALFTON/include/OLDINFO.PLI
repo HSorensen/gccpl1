@@ -1,0 +1,19 @@
+/* ENTERPRISE 1985 - DCL FOR BOAT INFO FILE */
+/*  NB	****  OUT OF DATE  *****/
+DCL 1 OLD	STATIC,
+      2 CODE	CHAR(2),   /* COUNTRY CODE */
+      2 SAIL	CHAR(5),   /* SAIL NO	   */
+      2 NAME	CHAR(15),  /* YACHTS NAME  */
+      2 SKIPPER CHAR(20),
+      2 CREW	CHAR(20),
+      2 CLUB	CHAR(12),
+      2 COLOUR	CHAR(10),  /* HULL COLOUR  */
+      2 FLAG1	CHAR(1),   /* ENTRY CATEGORY - A - UNDER 18	  */
+			   /*		     - B - UNDER 21	  */
+			   /*		     - C - ONER 40	  */
+      2 FLAG2	CHAR(1),   /* FLAG IF WOMAN IN CREW		  */
+      2 RECNO	DEC(3),
+      2 TALLY	CHAR(3),   /* TALLY/BERTH NUMBER */
+      2 FILL	CHAR(37);
+
+

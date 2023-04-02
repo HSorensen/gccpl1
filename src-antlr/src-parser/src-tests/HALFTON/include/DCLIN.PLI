@@ -1,0 +1,15 @@
+/* ENTERPRISES 1985 - STRUCTURE OF EDITED RACE INPUT FILE */
+ DCL 1	IN_STRUCT  STATIC,
+	2  IN_SAIL     CHAR(5),      /* SAIL NUMBER */
+	2  F1	       CHAR(5),
+	2  IN_EQUAL    CHAR(2),      /* EQUAL POSITION FLAG */
+	2  F2	       CHAR(5),
+	2  IN_STATUS   CHAR(3),      /* DNS, DSQ ETC.	    */
+	2  F3	       CHAR(5),
+	2  IN_PROTEST  CHAR(1),      /* PROTEST FLAG	    */
+	2  F4	       CHAR(8),
+	2  IN_PEN      CHAR(2),      /* PERCENTAGE PENALTY  */
+	2  F5	       CHAR(7),
+	2  IN_COMMENT  CHAR(20),     /* COMMENTS	    */
+	2  F6	       CHAR(17);
+

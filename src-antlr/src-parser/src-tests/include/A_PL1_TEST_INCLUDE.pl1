@@ -1,0 +1,7 @@
+a_pli_test_include: proc;
+dcl 1 yygenbb_0, %include yygenbb ;;
+dcl 1 yygenbb_1, %include yygenbb ;;
+dcl 1 yygenbb_2, %include yygenbb1 ;;%include PL1_TEST_INCLUDE_hasDCL.pl#;
+    /* just a comment before the final part of the DCL statement */        
+      , a ) fixed bin(31,0);
+end a_pli_test_include;

@@ -1,0 +1,63 @@
+ /**  GENERATE DECLARATION SHEETS FROM YACHTS.INFO FILE  **/
+DCLGEN:  PROC OPTIONS(MAIN);
+
+ %INCLUDE 'DCLHEAD.PLI';
+ %INCLUDE 'DCLINFO.PLI';
+
+ DCL  YACHTS  FILE;
+ DCL  PRINT   FILE;
+
+ DCL  HEADA  CHAR(20) STATIC INIT('DECLARATION SHEET');
+ DCL  HEADB  CHAR(7)  STATIC INIT('DATE - ');
+ DCL  HEADC  CHAR(20) STATIC INIT('____________________');
+ DCL  HEADD  CHAR(75) STATIC INIT
+   ('SAIL NO.|   HELM              |  SIGNATURE             |  ACCEPT PENALTY');
+ DCL  HEADE  CHAR(57) STATIC INIT
+   ('  |   RETIRAL       |   BOAT(S) PROTESTED ');
+ DCL  HEADF  CHAR(75) STATIC INIT
+   ('        |                     |                        |');
+ DCL  HEADG  CHAR(20) STATIC INIT
+   ('  |                 |');
+ DCL  HEADH  CHAR(75) STATIC INIT
+   ('NOTE -  ALL relevant columns MUST be completed after each race. ');
+ DCL  HEADI  CHAR(70) STATIC INIT
+   ('        If you intend to lodge a protest, you must complete column 6, ');
+ DCL  HEADJ  CHAR(70) STATIC INIT
+   ('indicating the sail number(s) of the boat(s) protested against.');
+
+ DCL  LINE   DEC FIXED(3) STATIC INIT(51);
+ DCL  BOATS  DEC FIXED(3) STATIC INIT(0);
+
+ OPEN FILE(YACHTS) SEQUENTIAL RECORD INPUT ENV(F(128),BUFF(4096))
+      TITLE('YACHTS.INF');
+ OPEN FILE(OUT) PRINT TITLE('$LST') LINESIZE(132) PAGESIZE(0);
+ ON ENDFILE(YACHTS) GO TO EOJ;
+
+MAIN:
+  READ FILE(YACHTS) INTO(BOAT_INFO);
+  BOATS = BOATS + 1;
+  IF LINE > 50
+    THEN CALL HEADS;	 /* PRINT HEADINGS */
+  CALL DETAIL;		 /* PRINT DETAIL LINE */
+  GO TO MAIN;
+
+HEADS:	PROC;
+
+
+  RETURN;
+  END;	  /* END PROC HEADS */
+
+DETAIL:  PROC;
+
+
+  RETURN;
+  END;	  /* END PROC DETAIL */
+
+EOJ:
+
+
+  END;	  /* END PROGRAM */
+
+
+
+

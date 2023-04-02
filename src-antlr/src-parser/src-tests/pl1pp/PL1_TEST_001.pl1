@@ -1,0 +1,257 @@
+
+%goto testthis1;
+%goto testthis2;
+%goto testthis3;
+
+/* Code from comp.lang.pl1
+ * Posted by John W. Kennedy, January 10th 2004.
+ * Note, the output is '1'.
+ */
+      DECLARE ONE_TIME BIT INITIAL ('1'B);
+      DECLARE EXIT_HOLDER LABEL;
+      RECURSIVE: PROCEDURE (I) RECURSIVE;
+         DECLARE I FIXED BINARY;
+         IF ONE_TIME THEN DO;
+            EXIT_HOLDER = EXIT;
+            ONE_TIME = '0'B;
+         END;
+         IF I = 4 THEN GOTO EXIT_HOLDER;
+         CALL RECURSIVE (I + 1);
+         EXIT: PUT DATA(I);
+      END recursive;
+      CALL RECURSIVE (1);
+
+ 
+ /* this nasty sample is from 
+		http://www.multicians.org/proc-proc.html
+*/
+ proc: proc; entry: proc (entry)
+     returns (bin (71)); if returns < entry then
+     return (call (entry - returns) * entry);
+     return (1): return (1);
+dcl  entry bin (71), end entry; end entry;
+dcl  dcl char (char) based (based), based ptr ptr, ptr
+     bit (144) init ("33184c674379c8d26136080bc32308f4bc64"b4),
+     if defined defined (1), 1 then, 2 else (0:1) options
+     (variable) variable init ((2) ioa_), ioa_ options (variable),
+     defined (0:1) bin init (1,0), end char (16) based (addr (ptr)),
+     char fixed (21), cu_$arg_ptr entry (bin, ptr, prec (21))
+     returns (prec (35)), returns defined defined (0),
+     call generic (cu_$arg_ptr when (fixed, ptr, binary (21)),
+        entry when (prec (17:71)));
+     if if ^= call (returns, based, char) then do; goto:
+     call else (returns) ("I need a numeric arg > 0 & < 23");
+     return;
+     end;
+     if if ^= verify (dcl, "1928374650") then goto goto;
+     if bin (dcl) - 22 > if | if = bin (dcl) then goto goto;
+     call then.else (if) (end, dcl, call (bin (dcl) ---- if));
+end;
+
+%goto endtests;
+%testthis1:;
+
+ dcl (x ctl, a(*) ctl) float, name char (10) var ctl, i fixed binary; 
+ dcl onsource builtin;
+
+on conversion begin; 
+  put skip edit (onsource, '=')(a); 
+  allocate name; 
+  name = onsource; 
+  go to next; 
+end; 
+  
+on endfile (sysin) go to next; 
+
+next: 
+  if allocation (x) > 0 then do; 
+     allocate a(allocation(x));  
+     do i = 1 to allocation (x); 
+        a(hbound(a,1)-i+1) = x; 
+        free x; 
+     end; 
+   end;
+
+if endfile (sysin) then signal finish;
+
+do forever; 
+  allocate x; 
+  get list (x); 
+  put list (x); 
+end;
+
+%goto endtests;
+
+%testthis2:;
+
+challengeTry1: proc options( main );
+
+  dcl infile  file stream input;
+  dcl eof_infile bit(1) init('0'b);
+
+  on endfile(infile) eof_infile='1'b;
+
+  dcl a(*) fixed bin(31,0) ctl; /* numbers in a list */
+  dcl n char(*) ctl; /* comment associated with list */
+
+  dcl astring var char(32767);
+  dcl aix fixed bin(31,0);
+  dcl getit var char(32767);
+
+  isOK=getComment(getIt);
+  do while(^eof_infile);
+   allocate n char(length(getit));
+   n=getit;
+
+   astring='';
+   aix=0;
+   isOK=getNumber(getIt);
+   do while(isOK);
+     aix=aix+1;
+     astring=astring!!' A('!!aix!!')='!!getit; 
+     isOK=getNumber(getit);
+   end;
+
+   if aix>0 then do;
+     astring=astring!!' ;'; 
+     allocate a(aix);
+     get string(astring) data(a);
+   end;
+
+  end;
+  
+  /* the file has been read, now print the result */
+  dcl i fixed bin(31,0);
+  do while(allocation(a)>0);
+    put skip edit(n) (a)
+                 ((a(i) do i=1 to hbound(a,1))) (x(1),f(5));
+    free n;
+    free a;
+  end;
+  
+  getComment: proc(s) returns(bit(1));
+    dcl s var char(*);
+    /* returns '1'b: read '*' comment '=' 
+     *         '0'b: eof
+     */
+  end getComment;
+  getNumber: proc(s) returns(bit(1));
+    dcl s var char(*);
+    /* returns '1'b: read integer separated by ' ', ',' or newline 
+     *         '0'b: eof or comment
+     */
+  end getNumber;
+
+end challengeTry1;
+%goto endtests;
+%testthis3:;
+
+/* --------------------------------------------------------------  
+ * Challenge - read input file with list comment and 
+ *             a abritary number integers.
+ *
+ * Copyright 2006, Henrik Sorensen.
+ *
+ * This is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation; version 2.
+ *
+ * This is distributed in the hope that it will be useful,but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * --------------------------------------------------------------
+ *
+ * Challenge - read input file with list comment and 
+ *             a abritary number integers.
+ *
+ * The input file is structured as follows
+ *     '*' comment '=' numbers
+ *
+ * More formally: A '*' in position 1 of the file indicates
+ * the beginning of a new list.The list can have a comment,
+ * and the comment can be any character except for '=', and
+ * after the '=', follows any number of integers separated
+ * by ',', blanks or newline. 
+ * The integers can be signed 31 bit integers, or in other 
+ * words plus/minus 2 giga.
+ * When the input file has been read, print out the lists,
+ * so the last read list is the one first printed, and the
+ * first list read is the last one printed.
+ *
+ */
+
+challengeTry2: proc options( main );
+  dcl infile  file stream input;
+  dcl eof_infile bit(1) init('0'b);
+
+  on endfile(infile) eof_infile='1'b;
+
+  dcl 1 list ctl
+    , 3 comment char(*)
+    , 3 numbers (*) fixed bin(31,0)
+  ;
+
+  dcl listString var char(32767);
+  dcl numberCounter fixed bin(31,0);
+  dcl workString var char(32767);
+  dcl lengthComment fixed bin(31,0);
+  dcl isOK bit(1);
+
+  isOK=getComment(workString);
+  do while(^eof_infile);
+   
+   lengthComment=length(workString);
+   listString='list.comment=''' !! workString !! '''' ;
+
+   numberCounter=0;
+   isOK=getNumberOrComment(workString);
+   do while(isOK);
+     numberCounter=numberCounter+1;
+     listString=listString!!' list.numbers('!!numberCounter!!')='
+              !!workString; 
+     isOK=getNumberOrComment(workString);
+   end;
+
+   if numberCounter>0 then do;
+     listString=listString!!' ;'; 
+     allocate 1 list
+       , 3 comment char(lengthComment)
+       , 3 numbers(numberCounter) 
+       ;
+     get string(astring) data(list);
+   end;
+   else
+   put skip list('List doesnt contain any elements.'!!listString);
+
+  end;
+  
+  /* the file has been read, now print the result
+   * Last read list will be the first printed.
+   */
+  dcl i fixed bin(31,0);
+  do while(allocation(list)>0);
+    put skip edit(list.comment) (a)
+                 ((list.numbers(i) 
+                   do i=1 to hbound(list.numbers,1))) 
+                 (x(1),f(5));
+    free list;
+  end;
+  
+  getComment: proc(s) returns(bit(1));
+    dcl s var char(*);
+    /* returns '1'b: read '*' comment '=' 
+     *         '0'b: eof
+     */
+  end getComment;
+
+  getNumberOrComment: proc(s) returns(bit(1));
+    dcl s var char(*);
+    /* returns '1'b: read integer separated by ' ', ',' or newline 
+     *         '0'b: eof or comment
+     */
+  end getNumberOrComment;
+
+end challengeTry2;
+
+%endtests:;
