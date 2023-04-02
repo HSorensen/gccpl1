@@ -40,6 +40,7 @@ class Myincl: public LexerScannerIncludeSource {
           std::cout << std::string("!!embedSource ") << lexerText << std::endl;
           // TODO: Add includeDir option
           // TODO: Add suffix option
+          // Use https://regex101.com to validate 
           // lexerText contains "%include name ;"
           std::regex e ("(%[ ]*include[ ]+)([a-z0-9_#@$|.]+)([ ]*;)"
           ,std::regex_constants::ECMAScript | std::regex_constants::icase);
