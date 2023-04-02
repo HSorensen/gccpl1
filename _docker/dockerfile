@@ -63,6 +63,8 @@ COPY src-antlr /src-antlr
 # Build demo parser: compile src-parser/main.cpp
 WORKDIR /src-antlr
 RUN mkdir buildfolder && cd buildfolder && cmake ../src-parser
-# RUN cd buildfolder && make -j 2
-#
+RUN cd buildfolder && make -j 2 antlr4_runtime-build_static
+
+# Build demo from main.cpp
+RUN cd buildfolder && make -j 2
 # 
