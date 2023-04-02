@@ -3,7 +3,7 @@
  * can be found in the LICENSE.txt file in the project root.
  */
 
-//
+// Based on https://github.com/antlr/antlr4/blob/master/runtime/Cpp/demo/Linux/main.cpp
 //  main.cpp
 //  antlr4-cpp-demo
 //
@@ -21,6 +21,8 @@
 using namespace antlrcpptest;
 using namespace antlr4;
 
+
+
 int main(int argc, const char **argv) {
 
  const std::string &lexerText = argv[1] ;
@@ -36,6 +38,24 @@ int main(int argc, const char **argv) {
 
   Pl1Lexer lexer(input);
   CommonTokenStream tokens(&lexer);
+
+  // TODO: Set include handler, extend from LexerScannerIncludeSource
+  // virtual void setLexerScannerIncludeSource( LexerScannerIncludeSource *lsis);
+  /*
+  class ANTLR4CPP_PUBLIC LexerScannerIncludeSource
+{
+    public:
+        virtual ~LexerScannerIncludeSource() {}
+        virtual CharStream * embedSource(const std::string &lexerText);
+        virtual CharStream * embedSource(const std::string &currentName, size_t line, size_t offset, const std::string &lexerText);
+};
+}
+
+//	TODO: public LexerScannerIncludeSource _lexerScannerIncludeSource = new LexerScannerIncludeSourceImpl();
+   LexerScannerIncludeSource * _lexerScannerIncludeSource = new LexerScannerIncludeSource;
+	
+
+  */
 
   tokens.fill();
   for (auto token : tokens.getTokens()) {
