@@ -67,4 +67,4 @@ RUN cd buildfolder && make -j 2 antlr4_runtime-build_static
 
 # Build demo from main.cpp
 RUN cd buildfolder && make -j 2
-# 
+# Generated executable is buildfolder/demo
