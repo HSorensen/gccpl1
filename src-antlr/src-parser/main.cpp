@@ -30,23 +30,19 @@ using namespace antlr4;
 class Myincl: public LexerScannerIncludeSource {
     /*
   class ANTLR4CPP_PUBLIC LexerScannerIncludeSource
-{
     public:
-        virtual ~LexerScannerIncludeSource() {}
         virtual CharStream * embedSource(const std::string &lexerText);
         virtual CharStream * embedSource(const std::string &currentName, size_t line, size_t offset, const std::string &lexerText);
-};
-}
-
-//	TODO: public LexerScannerIncludeSource _lexerScannerIncludeSource = new LexerScannerIncludeSourceImpl();
-   LexerScannerIncludeSource * _lexerScannerIncludeSource = new LexerScannerIncludeSource;
   */
 
   public:
         CharStream * embedSource(const std::string &lexerText) {
           std::cout << std::string("!!embedSource ") << lexerText << std::endl;
+          // TODO: Add includeDir option
+          // TODO: Add suffix option
           // lexerText contains "%include name ;"
-          std::regex e ("(%[ ]*include[ ]+)([a-zA-Z0-9_#@$|.]+)([ ]*;)");
+          std::regex e ("(%[ ]*include[ ]+)([a-z0-9_#@$|.]+)([ ]*;)"
+          ,std::regex_constants::ECMAScript | std::regex_constants::icase);
           std::smatch sm;
           std::regex_match (lexerText,sm,e);
           std::cout << " 0 " << sm[0] << std::endl;
