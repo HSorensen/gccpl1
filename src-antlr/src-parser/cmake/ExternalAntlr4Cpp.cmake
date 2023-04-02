@@ -4,11 +4,13 @@ include(ExternalProject)
 
 set(ANTLR4_ROOT ${CMAKE_CURRENT_BINARY_DIR}/antlr4_runtime/src/antlr4_runtime)
 set(ANTLR4_INCLUDE_DIRS ${ANTLR4_ROOT}/runtime/Cpp/runtime/src)
-set(ANTLR4_GIT_REPOSITORY https://github.com/antlr/antlr4.git)
+# set(ANTLR4_GIT_REPOSITORY https://github.com/antlr/antlr4.git)
+set(ANTLR4_GIT_REPOSITORY https://github.com/HSorensen/antlr4)
 if(NOT DEFINED ANTLR4_TAG)
   # Set to branch name to keep library updated at the cost of needing to rebuild after 'clean'
   # Set to commit hash to keep the build stable and does not need to rebuild after 'clean'
-  set(ANTLR4_TAG master)
+  # set(ANTLR4_TAG master)
+  set(ANTLR4_TAG lexerinclude)
 endif()
 
 if(${CMAKE_GENERATOR} MATCHES "Visual Studio.*")
