@@ -58,3 +58,11 @@ RUN echo "alias antlr4='java -jar /usr/local/lib/${ANTLR_TOOL}'" > /etc/profile.
  && echo "alias grun='java org.antlr.v4.gui.TestRig'" >> /etc/profile.d/antlr4_alias.sh \
  && echo "export CLASSPATH='.:/usr/local/lib/${ANTLR_TOOL}:$CLASSPATH'" >> /etc/profile.d/antlr4_alias.sh
 
+COPY src-antlr /src-antlr
+
+# Build demo parser: compile src-parser/main.cpp
+WORKDIR /src-antlr
+RUN mkdir buildfolder && cd buildfolder && cmake ../src-parser
+# RUN cd buildfolder && make -j 2
+#
+# 
