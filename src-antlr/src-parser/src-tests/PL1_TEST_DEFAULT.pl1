@@ -1,0 +1,31 @@
+/* test of default statement*/
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+default range(*) builtin;
+default range(A) fixed;
+default range(A:C) fixed binary;
+
+DFT DESCRIPTORS BINARY;
+DCL X ENTRY (FIXED, FLOAT);
+
+/* factored default statement */
+DEFAULT (RANGE(A) FIXED
+        ,RANGE(B) FLOAT
+        ) BINARY;
+
+/* dimension attribute not yet implemented
+DFT RANGE(J) (5);
+DFT RANGE(J) (5,5) FIXED;
+*/
+/* Restore all system defaults */
+DEFAULT RANGE(*), DESCRIPTORS;
+
+default (fixed&^precision&^constant) precision (21); /* DEFAULT */
+default (constant&real&^decimal) binary;

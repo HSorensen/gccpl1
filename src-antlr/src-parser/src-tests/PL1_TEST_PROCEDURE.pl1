@@ -1,0 +1,3 @@
+number: proc (start) returns(fixed bin(31,0));
+dcl start fixed dec(31,0);
+end number;

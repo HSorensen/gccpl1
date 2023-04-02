@@ -1,0 +1,231 @@
+/* test of io statements */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+read file(afile) into(avar);
+read file(bfile) into(bvar) key(a+b) event(evar);
+read file(bfile) into(bvar) keyto(mykeyvar) event(evar);
+read file(bfile) ignore(40);
+read file(bfile) set(pvar) ;
+
+write file(file) from(fvar) event(uvar);
+
+rewrite file(rfile) from(hvar);
+
+delete file(dfile) key(a);
+
+locate avar file(file) set (p) ;
+locate avar file(file) keyfrom(i);
+locate avar file(file) ;
+
+unlock file(h) key ( h||g );
+
+open file(f1), file(f2);
+open file(f3) input sequential;
+open file(f) stream record input output update
+	direct sequential transient buffered unbuffered
+	backwards exclusive keyed print title(atitle)
+	linesize(55) pagesize(88);
+
+close file(f3),file(fff) environment(leave);
+close file(f) env(reread);
+
+open file(f(1)) stream , file(f(2)) output;
+
+
+put skip list(a,b,c(3));
+put edit('A=',(a(i) DO i=1 to 3)) (a,a);
+
+get data(a(1));
+
+
+put edit (a,b) ( 2 a(30));
+put skip edit ('B=',B) ((2)a(22));
+
+/* test of edit format strings */
+
+f: FORMAT(f(2),f(3,4),f(2,3,4),e(1,2),e(1,3,4),a,a(20),b,b(10),g,g(10));
+g: FORMAT(X(10),column(10),LINE(3),page);
+j: FORMAT(P'99999');
+
+put skip edit (a) (r(f));
+
+/* test of environment options */
+dcl f file record environment(F FB FS FBS V VB VS VBS );
+dcl envcheck file record env(		F
+	,	FB
+	,	FS
+	,	FBS
+	,	V
+	,	VB
+	,	VS
+	,	VBS
+, ADDBUFF
+, ASCII
+
+, BKWD
+, BLKSIZE(1024)
+, BUFFERS(255)
+, BUFFOFF(255)
+, BUFND(255)
+, BUFNI(255)
+, BUFSP(255)
+
+, COBOL
+, CONSECUTIVE
+, CTLASA
+, CTL360
+
+, D
+, DB
+
+, GENKEY
+
+, INDEXAREA(255)
+, INDEXED
+
+, KEYLENGTH(255)
+, KEYLOC(255)
+
+, LEAVE
+
+, NCP(255)
+, NOWRITE
+
+, RECSIZE(80)
+, REGIONAL(2)
+, REREAD
+, REUSE
+
+, PASSWORD
+
+, SCALARVARYING
+, SIS
+, SKIP
+
+, TOTAL
+, TP(M)
+, TP(R)
+, TRKOFL
+
+, U
+
+, VSAM
+);
+
+/* do in data list */
+
+    put skip data(calc_retcd,w_papg_nf,stats
+                 ,store.papg_count
+                 ,(
+                  store.papg(i).FLAG
+                 ,store.papg(i).FLAG_FOUND
+                 ,store.papg(i).CLSTRID
+                 ,store.papg(i).SYSSIGN
+                 ,store.papg(i).ASOFDT
+                 ,store.papg(i).POSID
+                   do i = 1 to date_fields.count
+                  )
+                 );
+
+
+
+
+    put skip edit(calc_retcd,w_papg_nf,stats
+                 ,store.papg_count
+                 ,(
+                  store.papg(i).FLAG
+                 ,store.papg(i).FLAG_FOUND
+                 ,store.papg(i).CLSTRID
+                 ,store.papg(i).SYSSIGN
+                 ,store.papg(i).ASOFDT
+                 ,store.papg(i).POSID
+                   do i = 1 to date_fields.count
+                  )
+                 ) (a);
+
+
+dcl fx2 file environment(blksize(1024));
+dcl f2 file env(recsize(80));
+
+put data;
+put file(f) skip;
+put page;
+
+get data;
+get skip;
+get page file(afile);
+put skip(2);
+put skip('2');
+
+
+put ('a list');
+put (a,b) skip(2);
+
+get (a,b);
+get (a,b) page;
+
+
+put file(Table) edit((Deg, (sind (Deg + Min) do min = 0 to .9 by .1) do Deg = 0 to 359))
+    (skip(2), 5 (col(1), f(3), 10 f(9,4) ));
+
+put file(Table) edit((sind(Deg + Min) do min = 0 to .9 by .1))
+    (skip(2), 5 (col(1), f(3), 10 f(9,4) ));
+
+
+PUT EDIT ('blah')(A) SKIP;
+
+get file(msgfile) list(p->message_info) skip(3);
+put data file(msgfile) skip(3);
+
+
+dcl file BACKWARDS
+	BUFFERED
+	DIRECT
+	ENVIRONMENT (FB)
+	EXCLUSIVE
+	FILE
+	INPUT
+	KEYED
+	LINESIZE (256)
+	OUTPUT
+	PAGESIZE (100)
+	PRINT
+	RECORD
+	SEQUENTIAL
+	STREAM
+	TITLE (dd001)
+	TRANSIENT
+	UNBUFFERED
+	UPDATE
+	;
+
+	
+REWRITE FILE(a);
+REWrite file(a) from(b) key(h) event(e);
+
+put string(X) list(a);
+
+put list('a=',a) edit(a)(a) data(a); /* This is not PL/I */
+
+
+put page;
+put (b);
+put data (b) page line (3);
+put skip list (b);
+put file (x) skip;
+/*put file (x) (b);*/
+put (b) file (x);
+put skip (2) file (x);
+put file (x) skip list (b);
+
+put string (x) list (a);
+
+flush file(x);
+flush file(*);

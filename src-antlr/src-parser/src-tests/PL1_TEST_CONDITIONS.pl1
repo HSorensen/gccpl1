@@ -1,0 +1,83 @@
+/* test of conditions */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+signal attn;
+signal attention;
+signal error;
+signal finish;
+signal cond(a);
+signal condition(error);
+
+signal check;
+signal endpage(fileref);
+signal check(a);
+
+
+on error system;
+on error snap system;
+on error snap goto error_handling;
+on endfile(a) begin; eof_a=true; end;
+on check(a,b,c) put skip list(a,b,c);
+
+revert error;
+revert attn;
+revert finish;
+revert condition(b);
+
+(check(a,b,c),size):(nofofl):a=a+1;
+
+
+(check(a,b,c),size):(nofofl):alabel:a=a+1;
+(CHECK
+,CHECK(v1,v2)
+,CONVERSION
+,FIXEDOVERFLOW
+,INVALIDOP
+,OVERFLOW
+,SIZE
+,STRINGRANGE
+,STRINGSIZE
+,SUBSCRIPTRANGE
+,UNDERFLOW
+,ZERODIVIDE
+,NOCHECK
+,NOCONVERSION
+,NOFIXEDOVERFLOW
+,NOINVALIDOP
+,NOOVERFLOW
+,NOSIZE
+,NOSUBSCRIPTRANGE
+,NOSTRINGRANGE
+,NOSTRINGSIZE
+,NOUNDERFLOW
+,NOZERODIVIDE): a=0;
+
+
+
+ON check(j) SNAP(zdiv)=0;
+ON check(j) SNAP(zdiv):i=a/i;
+
+IF (t) THEN (SIZE) : a=b+c ;
+IF (t) THEN (SIZE) : a=b+c ; ELSE (SUBRG) : x(y)=0 ;
+
+
+on size,conversion goto not_ok;
+revert conversion,size;
+
+resignal ;
+
+signal storage ;
+on anycondition begin; stop ; end;
+on invalidop put skip list('haha');
+on storage put skip list('no more mem');
+
+on m goto endthis;
+declare M			 condition;
+signal M;

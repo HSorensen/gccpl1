@@ -1,0 +1,516 @@
+/* test of declares */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+pl1_test_dcl: proc;
+DCL (A(7,2)) FIXED BIN(31,9);
+/* dcl of kw as variables */
+b0:proc;
+DCL IF(7) fixed;
+end b0;
+b1:proc;
+DCL (IF(7)) fixed;
+end b1;
+b2:proc;
+dcl if(2) fixed;
+end b2;
+b3:proc;
+dcl if(3,2:2,4) dec(5,6);
+end b3;
+dcl while(3) dec fixed(13,2);
+
+dcl a01 char(8);
+dcl k01(7,2) float;
+dcl (a02,b02,c02) float;
+dcl (a03,b03,c03)(7) float;
+
+dcl a04(0:12) fixed bin(12,3);
+
+dcl a05(1:12,3:3) fixed bin(4);
+
+dcl (a06(3),b06(2,5),c06(1:2,0:2,4:6)) FIXED DEC(44);
+
+
+dcl p07 ptr;
+dcl p08 pointer;
+
+dcl 1 a09
+   ,3 b fixed
+   ,3 C decimal
+   ;
+
+dcl 1 a10(6) based
+   ,3 c10(7)
+   ,5 (a10,b10,c10) fixed
+   ;
+
+dcl	 1 b11
+	,3 c11 fixed bin(31)
+	,3 d11 char(1220 refer(b11.c11))
+	;
+
+dcl b12 based(b.p.s) fixed bin(15,0);
+
+dcl p13 pic'999.999';
+
+dcl a14 init(3);
+dcl a15(2) init(2,3e3);
+dcl a16 init(3,3,3,3);
+
+dcl a17 init call ab(3);
+dcl (b18,c18) init(-1,+1);
+dcl b19 fixed bin(31,0) init((a+1));
+dcl c20 init('1111');
+dcl b21 fixed bin(31,0) init((a+1-1*5+g(2)));
+
+dcl g22 graphic init('abcdef'gx);
+dcl f23 char(100) init((20)'A');
+
+dcl c24 char(1) INIT(('A'||'B'));
+
+dcl b25 bit(1);
+
+dcl 1 b26, 2 b26_1 bit( 10 refer(a));
+dcl 1 g27, 2 g27_1 graphic (10 refer(h));
+
+dcl f28 file title('ANAME');
+
+dcl g g; /* g abrv for graphic */
+
+dcl e30 entry;
+dcl e31 entry ext;
+dcl e32 entry ext options(asm);
+dcl e33 entry options(asm,assembler,inter,retcode,fortran,cobol);
+dcl e34 entry(fixed bin,dec,float,1  , 2 fixed bin,2 float);
+dcl e35 entry(fixed bin,,,1  , 2 fixed bin,2 float);
+dcl e36 entry();
+
+dcl a37 ctl fixed bin(15);
+dcl a38 (3,3) char(10) ctl;
+
+DCL A39 COMPLEX FLOAT INIT(1+2.456i);
+
+dcl q40 generic (a40 when(fixed bin),b40 when(*));
+
+
+
+/* defined/position */
+
+dcl a41 char(10) def b;
+dcl a42 char(19) defined (b);
+dcl a43 char(4) def b pos(1);
+dcl a44 char(5) def(b) position(1*h);
+
+dcl a45 like b;
+
+
+ DCL T_KEY1(100) CHAR(21) INIT((100)(21)' '); /* ROLLBACK CLSTRIDS    */
+ DCL T_KEY2(100) BIN FIXED(31) INIT((100)0);  /* ROLLBACK CORRRQSTIDS */
+ DCL T_ZAEHLER   BIN FIXED(31) INIT(0);       /* ANZAHL ROLLBACKS INS */
+
+ DCL T_CNT(34)   BIN FIXED(31)      /*  1. READ    TEV-DATUM FILE     */
+                 INIT((34)0);       /*  2. SELECT  CORRECTION REQUEST */
+
+
+
+ dcl a46 fixed bin(31) init((4));
+ dcl a47 fixed bin(31) init((b*2));
+
+
+
+
+ DCL P_SEG     PTR STATIC;
+ DCL 1 SEGH BASED(P_SEG),
+     2 #SEG    OFFSET(AVKVH91),
+     2 #SEGL   BIN FIXED(15),
+     2 SEGL    BIN FIXED(15),
+     2 SEGRA   CHAR(02);
+
+
+
+ dcl SetError generic
+     (SetErrorP1Fixed  when(*,*,*,fixed bin(31),*,*,*)
+     ,SetErrorP2Fixed  when(*,*,*,*,fixed bin(31),*,*)
+     ,SetErrorP2Float  when(*,*,*,*,Float(16),*,*)                      
+     ,SetErrorP2Dec158 when(*,*,*,*,fixed DEC(15,8),*,*)
+     ,SetErrorAllChar  when(*,*,*,*,*,*,*)                              
+     );
+                                                                        
+
+
+/* area and offset */
+dcl any area(1000);
+dcl o offset (any);
+
+
+dcl anr fixed bin(31);
+dcl 1 m
+  , 2 i fixed bin(31)
+  , 2 c char(anr refer(m.i));
+
+/* test of parameter declare */
+dcl (a48(*,*)) fixed bin(15,0);
+
+dcl b49 fixed bin(5,2) aligned;
+dcl c49 fixed dec(10) unal;
+dcl d49 float bin real aligned;
+
+dcl 1 a50 , 3 b50 fixed /* here is b=a.b */ ;
+
+
+dcl a51 init(1);
+dcl b51(3) init(1,2,3);
+dcl c51(4) init((3)(8)'0','1');
+dcl d51(4) init((3)*);
+dcl e51(4) init(1,(3)*);
+dcl g51(3,8) init((24)(1)'*');
+dcl h51(3,8) init((3)(8)('*'));
+
+dcl default_name char(1);
+
+dcl 1 str based(p)
+  , 2 x fixed binary
+  , 2 y
+  , 3 z float decimal
+  , 3 m fixed decimal
+  , 2 d (l refer (m))
+  , 3 e (50)
+  , 3 f (20)
+  ;
+  
+ dcl 1 c52 based
+   , 2 dim fixed decimal
+   , 2 ch(10 refer(dim)) char( 20 refer(dim))
+   ;
+
+dcl 1 c1 based
+ , 2 (b1,b2) fixed bin
+ , 2 c(1 refer(b1):2 refer(b2)) char(10)
+ ;
+ 
+
+/* From language reference manual */
+dcl a53 fixed decimal(5)
+  , b float bin(15)
+  , c pointer
+  , 1 d, 2 p, 2 q, 3 r fixed decimal
+  , 1 e, 2 x, 2 y, 3 z
+  , f(4) char(8)
+  ;
+ 
+ 
+dcl test_entry entry
+    (decimal fixed(15)
+   , bin float
+   ,
+   ,1
+   , 2
+   , 2
+   ,  3 decimal fixed
+   ,
+   , (4) char(8)
+   );
+
+/* DIMENSION attribute */   
+dcl  based_bit18 bit (18) aligned based dim (0:511);
+
+/* PARAMETER attribute */
+a_proc: proc(b,c);
+	dcl b parm fixed bin(12);
+	dcl c parameter float;
+end a_proc;
+
+
+/* OPTIONS dcl attribute */
+dcl FALSE bit (1) aligned int static options (constant) init ('0'b);
+
+
+dcl a55(0 : h-1) char(3) init((h)(3)'1');
+dcl t TASK;
+ 
+define alias a54 fixed bin(31,0);
+define ordinal o54 ( red, blue, gree );
+define ordinal p54 (dk,ddk,kroner) prec(8);
+define ordinal i54 (ch,chf,franken) signed;
+define ordinal m54 (gb,gbp,pound) unsigned prec(888);
+define ordinal o56 ( a,b,c value(88),d,e,f) unsigned ;
+
+
+dcl uns uns fixed(32);
+dcl a55_1 normal;
+dcl b55 abnormal;
+dcl c55 assignable;
+dcl d55 nonassignable;
+dcl e55 hexadec ;
+dcl f55 ieee;
+dcl g55 fixed bin(15,0) littleendian;
+dcl h55 fixed bin(31,0) bigendian;
+dcl h56 conn;
+dcl h57 nonconn;
+dcl h58 nonconnected;
+
+
+dcl d60 date;
+dcl d61 date('MMDDYY');
+
+
+dcl h61 handle(aa);
+dcl h62 handle aa;
+
+dcl t62 type aax;
+dcl t63 type(xxx);
+
+dcl w63 ordinal w_color;
+
+dcl a63 static reserved;
+dcl a64 static reserved(imported);
+
+
+  define ordinal o55 (g,h,i value(9)) signed prec(888);
+  dcl fix fixed bin(32,0) unsigned, nofix fixed bin(15) signed;
+  dcl a59 char(100) varz, b59 varyingz char(100);
+  dcl f59 float bin precision(32,6), g59 fixed dec precision(34,2) cplx;
+  dcl 1 b61 like c noinit;
+  dcl  f64(2) entry limited static init(a,b); 
+dcl f65 entry(fixed bin(10,4),*,* aligned optional,* conn, * BYADDR, * BYVALUE);
+dcl f66 entry ( * NODESCRIPTOR
+		  	FROMALIEN
+		  	FORTRAN
+		  	FETCHABLE
+		  	LINKAGE ('Alink')
+		  	CDECL
+		  	OPTLINK
+		  	STDCALL
+		  	SYSTEM
+		  	WINMAIN );
+
+ dcl a66 byaddr list varz char(*); 
+
+
+define structure 1 a67, 2 b67 fixed ;
+define structure 1 a68 union
+  , 2 b
+    , 3 c dec(5,0)
+    , 3 d float
+  , 2 e
+    , 3 f real float
+    , 3 g cplx float
+  ;
+dcl 1 a69
+  , 2 b cell
+    , 3 c dec(5,0)
+    , 3 d float
+  , 2 e union
+    , 3 f real float
+    , 3 g cplx float
+  ;
+  
+ dcl 1 a70
+   , 2 * bit(7) unaligned
+   , 2 b bit(1) unaligned
+   ;
+
+define structure 1 a71 union
+  , 2 b
+    , 3 c dec(5,0)
+    , 3 d float
+  , 2 e
+    , 3 * real float
+    , 3 g cplx float
+  ;
+   
+   
+	declare	abs_io_control$set_arguments	entry (ptr, (*) char (*) varying, fixed bin, fixed bin (35));
+	dcl get_next_line local label variable ;
+	dcl     probe_get_$expression	 entry (ptr, 1 structure aligned like reference_node, fixed bin (35));
+	
+	probe_array_bounds_: proc (P_probe_info_ptr, P_symbolp, P_reference, P_source_info, P_address, P_code) 
+	returns ((2, 16) fixed bin (24));
+	end;
+	dcl     probe_array_bounds_	 entry (ptr, ptr, 1 aligned like reference_node,
+			 1 aligned like source_info, ptr, fixed bin (35)) returns ((2, 16) fixed bin (24));
+	
+	dcl (P_probe_info_ptr pointer,
+     P_iocb_ptr pointer,
+     P_pathname char (*) varying,
+     P_source_info_ptr ptr,				/* to source info to set */
+    (P_integer, P_decimal) fixed bin (35),
+     P_line_ptr pointer,
+     P_line_lth fixed bin (21),
+     P_control_arg char (64) varying,
+     P_code fixed bin (35));
+	compute_type_bits: proc (P_dtype) returns (1 aligned like type_bits);
+	end;
+	dcl      add_bit_offset_ entry (ptr, fixed bin(24)) returns(ptr) reducible;
+	
+	dcl  fx2 (0:63) ptr init ((64) null);
+	dcl  s ext entry (fixed bin, (0: 7) float bin, (0: 7) float bin, (0: 7) float bin, (0: 7) float bin, float bin, float bin);
+	dcl  return_value pointer options (packed);
+	
+dcl (OCTAL_TYPE init ("0"b2),
+     LETTER_TYPE init ("1"b2),
+     STRING_TYPE init ("2"b2),
+     DECIMAL_TYPE init ("3"b2)) bit (2) aligned internal static options (constant);
+     
+dcl  (no_decimal,aligned_decimal,unaligned_decimal) file record output environment(stringvalue);
+dcl  usage format;	
+dcl image (0:*) bit (16) unal;
+
+dcl  convert_word_ entry ((0:*) fixed bin, (0:*) bit (1) aligned, fixed bin, char (*), char (*));
+
+dcl  substraddr
+	generic (substraddr_nonvarying when (character (*) nonvarying, fixed binary precision (1:35)),
+	substraddr_varying when (character (*) varying, fixed binary precision (1:35)));
+
+dcl 1 stack_table (0:11) aligned static,		/* Enough for six lisps */
+      2 segno bit(18) unaligned init((12)(""b)),		/* segment number */
+      2 allocated bit(1) unaligned init((12)("0"b)),	/* "1"b if someone is using the segment */
+      2 single_bound fixed bin(16,-2) unaligned;		/* the current setting of the maximum length of this segment */
+dcl  file_size                fixed bin init ( ((262144-320)/320) );
+
+dcl     lister_hash_fid_$enter irreducible
+                        entry (ptr, char (*))
+                        returns (ptr);
+
+dcl 1 array_load_sequence(0:5) static aligned,       
+      2 inst(3) bit(36) initial(
+        (2)("101000000000000000010011111001000110"b,
+            "010000000000000000111001000001000000"b, ""b),
+        "000100000000100111010011101000000111"b,
+        "101000000000000000010011110001000110"b,
+        "010000000000000000111001000001000000"b,        
+        "000010000000100111010011101000000111"b,
+        "101000000000000000010011110001000110"b,
+        "010000000000000000111001000001000000"b,        
+        "000100000000100111010011101000000111"b,
+        "101000000000000000010011110001000110"b,
+        "010000000000000000111001000001000000"b,       
+        "101000000000000000010011111001000110"b,
+        "010000000000000000111001000001000000"b,
+        ""b);                                   
+dcl a72 ptr initial to (VARYING) ("AAA");
+
+/* allow empty declares */
+dcl ;
+declare ;
+
+dcl ARGCPLX ENTRY(CPLX(16)) RETURNS(FLOAT(16)) REDUCIBLE;
+
+ DCL ITEMP FILE RECORD INPUT DIRECT KEYED ENV(REGIONAL(1), F,RECSIZE(MAXRC4),BLKSIZE(MAXRC4));
+ DCL DIFILE FILE RECORD OUTPUT ENV(F,RECSIZE(OTSIZE),BLKSIZE(OTSIZE));
+ DCL TEMP FILE RECORD OUTPUT ENV(F,RECSIZE(MAXRC4),BLKSIZE(MAXRC4));
+ DCL FLAT FILE RECORD OUTPUT ENV(FB,RECSIZE(LRECL),BLKSIZE(LRECL));
+
+/* test of environment attributes that can have a parameter */
+ DCL a73 file record input environment
+ (	BLKSIZE  (   Avariable  ) 
+	,	BUFFERS  (   Avariable  ) 
+	,	BUFFOFF  (   Avariable  ) 
+	,	BUFND  (   Avariable  ) 
+	,	BUFNI  (   Avariable  ) 
+	,	BUFSP  (   Avariable  ) 
+	,	INDEXAREA  (   Avariable  ) 
+	,	KEYLENGTH  (   Avariable  ) 
+	,	KEYLOC  (   Avariable  ) 
+	,	NCP  (   Avariable  ) 
+	,	RECSIZE  (   Avariable  ) 
+	,	REGIONAL  (   Avariable  ) 
+ 
+ );
+ 
+	dcl x73(1) char (32) int static options (constant) init ("any");
+	
+	declare  (
+         TC_data_ptr	  pointer,
+         Code		  fixed bin (35),
+         Request_ptr	  pointer,
+         Terminal_type	  character (*),
+         Channel		  character (*),
+         Event		  fixed bin (71),
+         Window_id		  bit (36) aligned,
+         Reconnection_flag	  bit (1)
+         )		  parameter;
+	
+	
+	tc_input:
+     procedure (TC_data_ptr, Request_ptr, Code);
+	go to do_input;				/* skip over all these dcls */
+
+/* Parameters */
+
+	declare (
+	        Request_ptr		   pointer,
+	        TC_data_ptr		   pointer,
+	        Code		   fixed bin (35)
+	        )			   parameter;
+
+declare  1 atd_switches	  unaligned,
+         ( 2 debug,
+	 2 modes,
+	 2 target,
+	 2 top,
+	 2 height,
+	 2 left,
+	 2 width
+	 )		  bit (1) unaligned,
+	 2 pad		  bit (29) unaligned;
+	 
+	 
+file_setdelim:
+	entry (pibp1, nbreaks, breaklist, nreads, readlist, status6);
+dcl  nbreaks, nreads;				/* Numbers of elements. */
+dcl (breaklist, readlist) bit (*) aligned;
+dcl  status6 bit (72) aligned;
+
+dcl 1 branch,					/* Branch structure filled by status_long. */
+    2 ((dir, seg) bit (1), nnames bit (16), nrp bit (18)),	/* Type, number of names, pointer to names. */
+    2 dtm bit (36),					/* Date-time segment modified. */
+    2 dtu bit (36),					/* Date-time used. */
+    2 ((t, r, e, w, a) bit (1), pad1 bit (13), records bit (18)), /* Mode, number of records. */
+    2 dtd bit (36),					/* Date-time dumped. */
+    2 dtem bit (36),				/* Date-time entry modified. */
+    2 acct bit (36),				/* Account ID. */
+    2 (curlen bit (12), bit_count bit (24)),		/* Current length, bit count. */
+    2 ((did, mdid) bit (4), copysw bit (1), pad2 bit (9), rb (3) bit (6)), /* Dev. ID's, copy sw., rings. */
+    2 uid bit (36);					/* Unique ID. */
+
+	declare process_id bit(36) aligned,
+		process_group_id char(32) aligned,
+		process_dir_name char(32) aligned,
+		lock_id_ bit(36) aligned,
+		((pds$processid, pds$lock_id, tc_data$initializer_id) bit(36),
+		 (pds$process_group_id, pds$process_dir_name) char(32)) aligned ext;
+
+
+dcl (bufp ptr,
+      (linect, cur_word_no, erf_no, proc_no, seg_no, page_no,
+       zero init (0),
+       two init (2),
+       three init (3),
+       wpl
+      ) fixed bin,
+      (ioname char (32) init ("od_output_"),
+       time_string char (24),				/* date and time */
+       fmtheader char (51)
+          init ("^|^-ERF ^d^3-^a^3-Page ^3d^2-Process ^d, Seg ^3o^2/"),
+       buffer char (4104)
+      ) aligned
+    ) int static,		/* 4096 + 8 characters of slop */
+   status bit (72) aligned,				/* for ios_ calls */
+   p ptr,
+   (i,						/* Misc */
+    fmt_sw,					/* 0 - fast 8 words, 1 - regular format */
+    n,						/* length of formatted string */
+    nnl
+   ) fixed bin;				/* # of NL chars in formatted string */
+
+
+
+end;
+
+end pl1_test_dcl;

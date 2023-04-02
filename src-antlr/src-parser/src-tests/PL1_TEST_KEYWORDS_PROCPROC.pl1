@@ -1,0 +1,51 @@
+
+/*
+ This hard-to-understand PL/I program reminds us that there are no reserved words in PL/I. 
+ It was written by Paul Karagianis, who writes:
+ 
+ I forget the exact date but I wrote it either shortly before or after I moved to NYC in 1981, likely early 1982. 
+ The motivation was provided by Dave Warme, a friend (and a highly skilled Multician) back at Virginia Tech who 
+ was a big fan of the Northern Virginia (McLean) Explorer Post that churned out a generation of gung-ho 
+ programmers in the late 70's. 
+ One of their tests, I think for a merit badge, included describing what was being done by a sadistically 
+ warped Fortran program. It was a real horror show which, back then, I actually had the time to enjoy puzzling
+ out, with limited success. 
+ "proc proc" was my retort, and was done very slowly and incrementally with a manual at hand. 
+ Stripped of the obscurity it's a pretty dull program.
+*/
+
+proc: proc; 
+  entry: proc (entry) returns (bin (71)); 
+     if returns < entry then
+       return (call (entry - returns) * entry);
+    return (1): return (1);
+    dcl  entry bin (71), end entry; 
+  end entry;
+
+  dcl  dcl char (char) based (based)
+     , based ptr ptr
+     , ptr bit (144) init ("33184c674379c8d26136080bc32308f4bc64"b4)
+     , if defined defined (1)
+       , 1 then
+       ,   2 else (0:1) options (variable) variable init ((2) ioa_)
+       , ioa_ options (variable)
+       , defined (0:1) bin init (1,0)
+       , end char (16) based (addr (ptr))
+       , char fixed (21)
+       , cu_$arg_ptr entry (bin, ptr, prec (21)) returns (prec (35))
+       , returns defined defined (0)
+       , call generic (cu_$arg_ptr when (fixed, ptr, binary (21))
+       ,                     entry when (prec (17:71)));
+
+
+     if if ^= call (returns, based, char) then do; 
+      goto: call else (returns) ("I need a numeric arg > 0 & < 23");
+       return;
+     end;
+
+     if if ^= verify (dcl, "1928374650") then goto goto;
+
+     if bin (dcl) - 22 > if | if = bin (dcl) then goto goto;
+
+     call then.else (if) (end, dcl, call (bin (dcl) ---- if));
+end;

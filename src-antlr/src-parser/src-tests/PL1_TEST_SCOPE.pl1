@@ -1,0 +1,192 @@
+/* test of Scope rules */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+*process go;
+scopetest: proc options(main);
+/* */
+  a:proc;
+    call a;
+    b:proc;
+      a:proc;
+      end a;
+      k:proc;
+      end k;
+    end b;
+    c:proc;
+      d:proc;
+      m=1;
+      a:if m>5
+        then
+	return;
+      m=m+1;
+      end d;
+    end c;
+    a:proc;
+    end a;
+  end a;
+/* */
+/*
+Showing scope structure with 7 nodes.
+parent  :NULL
+	name    :NONE
+	stmttype:(498) _ROOT_
+===============
+parent  :NONE
+	name    :a
+	stmttype:(422) PROC
+===============
+parent  :a
+	name    :b
+	stmttype:(422) PROC
+	name    :c
+	stmttype:(422) PROC
+	name    :a
+	stmttype:(422) PROC
+===============
+parent  :b
+	name    :a
+	stmttype:(422) PROC
+===============
+parent  :c
+	name    :d
+	stmttype:(422) PROC
+===============
+*/
+/* */
+  a1:proc;
+    call a1;
+    b2:proc;
+      do i=1 to 4;
+      end;
+      a3:proc;
+      end a3;
+    end b2;
+    c4:proc;
+      d5:proc;
+      m=1;
+      a6:if m>5
+        then
+	return;
+      m=m+1;
+      end d5;
+    end c4;
+    n1:a7:proc;
+    end a7;
+  end a1;
+/* */
+ON error system;
+on error snap begin; goto exit ; end;
+
+
+if a=1 then do i=1,2; put data(i); end;
+
+if b=1 then do; do i=3,4,5; put data(i); end; end;
+if c=0 then begin; dcl b fixed; b=0; end;
+else
+ do; c=8;
+    i_ :do i=1 to 7;
+        put data(i);
+        end i_ ;
+ end;
+
+if xxa=0 then if b=0 then do; h=9; end;
+if a=0 then do k=1,2 while(k>0); h=8; end;
+else if c=1 then do; h=7; end;
+if (a=0) then do k=1 to 9 until(i=3); put data(k,i); end;
+
+if (a=0) then l:do k=1 to 9 until(i=3); put data(k,i); end l;
+if (a=0) then l:do k=1 to 9 until(i=3); put data(k,i); end;
+
+
+select;
+when(d=0) begin; dcl a float; a=a+1; end;
+when(d<0) do; b=10; end;
+other do; b=b+1; end;
+end; /* select */
+/* */
+if c=1 then a:do c=1 to 40; do b=2,3; put data(c,b); end; end a;
+if d=0 then
+  select(c);
+    when(0) do;
+              put skip list('Something');
+	    end;
+    when(1) select(d); when(0) do; /* nothing */ end; other put list('Here'); end;
+    other do; put skip list('c is not 0 nor 1');
+          end;
+  end;
+/* */
+if a=1 then b=0; l:else b=1; goto l;
+if a=1 then b=0; else l:b=1; goto l;
+if a=1 then l:b=0; else b=1; goto l;
+
+
+end scopetest;
+*process;
+a:package ;
+
+end a;
+*process;
+a:package exports(*);
+end a;
+*process;
+a:package exports(*) reserves(*);
+end a;
+*process;
+a:package reserves(*) exports(*);
+end a;
+*process;
+a:package reserves(*) exports(*) options(order reentrant);
+end a;
+*process;
+a:package reserves(*) exports(*) options(order reentrant chargraphic);
+end a;
+*process;
+a:package reserves(*) exports(*) options(reorder reentrant nochargraphic);
+end a;
+*process;
+a:package reserves(a,b,c) exports(a external('ThisName')) options(reorder reentrant nochargraphic);
+end a;
+
+
+* process;
+
+aA:proc options(main);
+
+begin options(order);
+end;
+begin options(reorder inline noinline nochargraphic chargraphic non_quick);
+end;
+end aA;
+
+*process;
+	open_segment: procedure () options (non_quick);
+	dcl get_next_line local label variable ;
+	end;
+    
+*process;
+a:package reserves(*) exports(*) options(order reentrant, chargraphic);
+begin options(reorder, inline noinline, nochargraphic chargraphic);
+end;
+
+t: procedure (code, msg) options (support);
+end t;
+	
+
+end a;
+m: procedure () options (rename ((theproc, leproc)));
+end m;
+*process;
+a: proc;
+		parse_templates_$get_template_pnotice: entry 
+		returns (1 aligned, 2 char (32), 2 fixed bin);
+end a;
+
+print_message:
+     proc options (variable, no_quick_blocks);
+end;

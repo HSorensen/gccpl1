@@ -1,0 +1,84 @@
+/* test of constants */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+a='001001'BX;
+
+a='''';
+
+a='this is a quote '' ';
+
+b='00100'B;
+c='DEADBEEF'X;
+d='00010010'BX;
+e='11110000'B4;
+c='/* no ''comments'' */';
+
+a=0;
+a=9999.;
+
+
+c=999999999;
+
+
+i=1.0;
+j=1e4;
+K=.1E-9;
+M=1234321243.09876543E+665544;
+N=+-9.0098E-098;
+
+/* complex constants */
+a=1I;
+a=1+2.3i;
+A=1I+2;
+
+a=1+1i*2;
+
+/* repetition factors */
+a=(1)'aaa';
+a=if(1)||(2)'ii';
+
+x = 0110b;
+y = '0765' b3;
+z = 0776 b3;
+
+a="this is a string";
+a="'";
+a="""";
+
+n='1111aaaa' XU;
+m='111FFF' XN;
+w='wwweeeoooddd' WX;
+m='llLlllLlllll' M;
+
+n=1q0;
+n=123423d1213;
+n=12121s2;
+
+m= 1e3I + 1q4;
+m= (1e3I + 1q4)*0.13d2+453e-32i;
+
+m= 123_456_789_101112 ;
+n= 1001_1111_1101b;
+e= 1_1e3_4 ; /* 11e34! */
+e= 1_1e-3_4 ; /* 11e34! */
+e= 1_1e+3_4 ; /* 11e34! */
+e= 1_1e+3_4 ; /* 11e34! */
+f=1e-1;
+
+b= 1f8b ;
+b= 1f8b3 ;
+b= 1f8b4 ;
+b= 1f8b i;
+n = 1.e0;
+v = 0.e0;
+b=12;
+b=1332122122b2;
+c='1' b2;
+

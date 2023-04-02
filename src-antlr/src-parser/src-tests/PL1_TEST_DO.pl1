@@ -1,0 +1,64 @@
+/* test of do statements */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+pl1_test_do: proc;
+do a=1;
+end;
+
+c:
+do b=2 to 7;
+end c;
+
+
+do while=1 to repeat while(a*a) until(c<5);
+
+
+end;
+
+do i=1,2,3,5, 10 to 20 ; end;
+
+
+A:B:C:DO i=1 to 50; end C;
+
+
+
+DO WHILE (TPK <= TPI);
+end;
+
+
+DO WHILE(^EOF_DDINPL);
+
+END ;
+
+
+i:do n= 1 to 5;
+
+iterate;
+iterate i;
+leave;
+leave i;
+end i;
+
+do loop;
+end;
+
+do forever;
+end;
+
+do loop=1 to 5;
+end;
+
+do forever=9 to 11;
+end;
+
+do a=1 upthru 4;
+end;
+do b=9 downthru 0;
+end;
+end pl1_test_do;

@@ -1,0 +1,5 @@
+A: Proc options (Main);
+  DCL n fixed bin(15,0);
+  n=0;
+  put skip list(n);
+end A;

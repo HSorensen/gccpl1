@@ -1,0 +1,20 @@
+/* test of SELECT statements */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+pl1_test_select: proc ;
+SELECT;
+WHEN(a>b) a=1;
+WHEN(b=0) c=0;
+OTHERWISE b=-1;
+END;
+
+select(c(i));
+when(1,2,3,4) a: do; a=4;c=0; end;
+end;
+end pl1_test_select;

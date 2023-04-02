@@ -1,0 +1,130 @@
+PL1_TEST_IF: PROC;
+/* Test of IF statements */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+IF=1;
+IF=IF;
+IF(1)=1;
+IF(1)=IF;
+IF(1)=IF(1);
+IF(1,1)=1;
+IF(1,1)=IF;
+IF(1,1)=IF(1);
+IF(1,1)=IF(1,1);
+IF(1,1)=a+1;
+
+
+IF(1)=IF;
+/*	IF  = IF  ok
+	IFC =     not OK
+	IF  = IFC not ok
+
+	IF  IF  ok
+	IFC IF	ok
+	IF  IFC not ok
+	IFC IFC not ok
+*/
+
+
+/* IF=IF(1)  "set whole array IF to the value of first element"
+   IF(    1     )=    2     ;
+   ---   ---   ---   ---   ---
+    !     !     !     !     !
+    !     !     !     !     !
+   IFC   NUM   CEQ   NUM    ;
+          !
+          !
+        expr
+
+solution add explict assign rule: "IFC expr CEQ expr"
+
+
+   IF(   1    )=   IF(   1     )    ;
+   ---  ---  ---   ---  ---   ---  --- 
+   IFC  expr CEQ   IFC  expr   )    ;
+
+
+*/
+
+
+IF A>B THEN IF B=9 THEN a=0; ELSE B=8;
+
+
+IF A>B & A & B THEN C=0;
+IF (A>B) & A & B THEN C=0;
+IF ^(A>B) & A & B THEN C=0;
+
+if a>y then do i=1 to 10; put skip list(a,i); end; else do(1)=4;
+
+if a>y then i=1; else do i=1 to 10; put skip list(a,i); end; 
+
+if (a) | c then do; a=0; end;
+
+if a then ; else ;
+
+if xxa=0 then if b=0 then h=9;
+
+     IF SUBSTR(INPL.CLSTRID,1,1) ^= 'G'      &
+                 INPL.PLFLAG         = '1'     &
+                 INPL.ASOFDT         = W_LATLM &
+                 INPL.CLSTRID       ^= CL_ID
+       THEN DO;
+          Z_INPL_I = Z_INPL_I + 1;
+          CL_ID = INPL.CLSTRID;
+          GOTO ELOOP1;
+          END;
+
+ IF ^($@TATM0 = ' ' !                    /* LAUFDATUM/DATEN           */
+      $@TATM0 = '00000000')
+ THEN DO;
+    IF VERIFY($@TATM0,W_NUM) > 0 !
+       VERIFY($@LKTLM,W_NUM) > 0 !
+       VERIFY($@LATLM,W_NUM) > 0 !                                      
+       VERIFY($@LKTVM,W_NUM) > 0 !                                      
+       VERIFY($@LATVM,W_NUM) > 0 !                                      
+     ^($@LKTLM >= $@LATLM &                                             
+       $@LKTVM >= $@LATVM &                                             
+       $@LKTLM >  $@LKTVM &                                             
+       $@LATLM >  $@LATVM)                                              
+    THEN DO;                                                            
+       PUT FILE(DDPROT) SKIP EDIT                                       
+         ('DD#PARM DATUMANGABEN FALSCH')(A);                            
+       CALL WRITE_ERROR_ALLGEM('DD#PARM ','DATUMANGABEN FALSCH');       
+    /* CALL YNI9900                                                   */
+    /*     ('NI5530','DD#PARM DATUMANGABEN FALSCH','0','ABBRUCH');    */
+    /* SIGNAL ERROR; */                                                 
+       END;                        
+END;
+
+IF $@PARM6^= '1E9' &                    /* CHECKPOINT DB-UPDATES     */
+    (VERIFY($@PARM6,W_NUM)>0 ! $@PARM6<'0000002')                       
+ THEN DO;                                                               
+    PUT FILE(DDPROT) SKIP EDIT
+       ('DD#PARM CHECKPOINT ANZ DB-UPD FALSCH')(A);
+    CALL WRITE_ERROR_ALLGEM
+       ('DD#PARM ','CHECKPOINT ANZ DB-UPD FALSCH');
+ /* CALL YNI9900('NI5530',                                            */
+ /*    'DD#PARM CHECKPOINT ANZ DB-UPD FALSCH','0','ABBRUCH');         */
+ /* SIGNAL ERROR; */
+    END;
+
+IF( (a)='000'BX )then b=0;
+
+IF ((A & B) = '00'BX) | (C < 10) then n=0;
+
+IF(1)=9 THEN o=0;
+
+a=IF(1);
+
+if other ^= mapx
+then if binary (p_rel_loc) = binary (map (other).rel_loc) + binary (map (other).size)
+THEN A=0;
+
+END ;

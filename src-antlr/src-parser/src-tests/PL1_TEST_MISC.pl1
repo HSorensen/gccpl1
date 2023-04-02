@@ -1,0 +1,76 @@
+testmisc: proc options(main);
+/* Test of miscelleanous statements */
+/*  Copyright 2004, 2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+
+display('AZDIV Occurred===>'!!oncode());
+
+do if(a)=0 to 1; end;
+
+if( a*b ) = 0;
+
+if snap=0 then stop;
+
+	     	x = 0110b;
+	     	
+	  
+/* Test of empty proc and entry parameter list */   	
+x: proc();
+b:entry();
+end x;
+
+dcl t task;
+attach v thread(t);
+detach thread(t);
+
+attach v environment();
+attach v thread(t) env(tstack(10));
+wait thread(t);
+
+fetch a ;
+fetch a set(b);
+fetch a title('n');
+fetch a set ( b) title('N');
+fetch a title('KKK') set (k);
+
+return (binary (bit8, 8) - 1f8b);		/* 128 - 255 ==> -128 - -1 */
+
+
+call dispatch_find_attachment (target_ring) ((attach_param (1)), inner_index, code);
+call print_extended_table (i) (0);
+call run_epilogue_handlers(i) ();
+
+
+if parm_stk (s_ndx - 1).data_type = char_mode
+then call bad_data_type;
+else if rounding
+then addr (parm_stk (s_ndx - 1).value) -> based_value =
+	negate_round (parm_stk (s_ndx - 1).data_type)
+	(6, addr (parm_stk (s_ndx - 1).value) -> based_value,
+	addr (parm_stk (s_ndx - 1).value) -> based_value, local_error_code);
+else addr (parm_stk (s_ndx - 1).value) -> based_value =
+	negate_trunc (parm_stk (s_ndx - 1).data_type)
+	(6, addr (parm_stk (s_ndx - 1).value) -> based_value,
+	addr (parm_stk (s_ndx - 1).value) -> based_value, local_error_code);
+
+	
+ DCL ITEMP FILE RECORD INPUT DIRECT KEYED ENV(REGIONAL(1), F,RECSIZE(MAXRC4),BLKSIZE(MAXRC4));
+ DCL DIFILE FILE RECORD OUTPUT ENV(F,RECSIZE(OTSIZE),BLKSIZE(OTSIZE));
+ DCL TEMP FILE RECORD OUTPUT ENV(F,RECSIZE(MAXRC4),BLKSIZE(MAXRC4));
+ DCL FLAT FILE RECORD OUTPUT ENV(FB,RECSIZE(LRECL),BLKSIZE(LRECL));
+ DCL SYSIN FILE RECORD INPUT;
+ 
+ DCL  	ARGCPLX ENTRY(CPLX(16)) RETURNS(FLOAT(16)) REDUCIBLE ;
+ P: PROC returns(CPLX(16));
+ end p;
+ 
+ ALLOCATE ALN(0B:N1) INIT((N1+1B) 0);
+ 
+ end testmisc;

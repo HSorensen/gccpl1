@@ -1,0 +1,47 @@
+/* test of storage allocation and free  */
+/*  Copyright 2002, 2003-2004 Henrik Sorensen
+
+    This file is part of GCC front-end for the PL/I programming language, GCC PL/I.
+
+    GCC PL/I is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; version 2.
+*/
+
+
+free a;
+free a,b,c;
+
+free a->c;
+free b in(f);
+free b in(f),c in(d);
+free a.c.f->bb;
+
+alloc a;
+alloc a,b;
+alloc a in(b) set(c);
+alloc a in(b) set(c), b set(u), c in(a), d set(c) in(a);
+
+dcl a(3) ctl char(8);
+alloc a(6) char(123);
+alloc f bit(8);
+alloc f graphic(12);
+alloc a area(1234568);
+alloc 1 a , 2 b (8) char(123) ;
+
+alloc x(10,10);
+alloc x(*,*);
+
+dcl anr fixed bin(31);
+dcl 1 m
+  , 2 i fixed bin(31)
+  , 2 c char(anr refer(m.i));
+
+a0:proc;
+end a0;
+
+dcl a1 entry;
+fetch a1;
+call a1;
+release a1;
+release *;
