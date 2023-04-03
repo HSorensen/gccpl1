@@ -68,21 +68,18 @@ int main(int argc, const char **argv) {
  struct stat buffer;
  if (stat(lexerText.c_str(), &buffer)) {
     std::cerr << std::string("file not found: ") << lexerText << std::endl;
-    return 8;
+    return EXIT_FAILURE;
   }
 
   ANTLRFileStream *input = new ANTLRFileStream();
   input->loadFromFile(lexerText);
 
+  // Set include handler, extend from LexerScannerIncludeSource
   Myincl myincl;
 
   Pl1Lexer lexer(input);
   lexer.setLexerScannerIncludeSource(&myincl);
   CommonTokenStream tokens(&lexer);
-
-
-  // TODO: Set include handler, extend from LexerScannerIncludeSource
-  // virtual void setLexerScannerIncludeSource( LexerScannerIncludeSource *lsis);
 
   tokens.fill();
   for (auto token : tokens.getTokens()) {
@@ -94,5 +91,5 @@ int main(int argc, const char **argv) {
 
   std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
