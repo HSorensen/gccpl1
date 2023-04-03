@@ -42,7 +42,7 @@ class Myincl: public LexerScannerIncludeSource {
           // TODO: Add suffix option
           // Use https://regex101.com to validate 
           // lexerText contains "%include name ;"
-          std::regex e ("(%[ ]*include[ ]+)([a-z0-9_#@$|.]+)([ ]*;)"
+          std::regex e ("(%[ ]*include[ ]+)([a-z0-9_#@$.]+)([ ]*;)"
           ,std::regex_constants::ECMAScript | std::regex_constants::icase);
           std::smatch sm;
           std::regex_match (lexerText,sm,e);
