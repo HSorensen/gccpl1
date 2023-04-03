@@ -8,7 +8,7 @@ for  f in *.pl1; do
   echo $f 
   $GCCPLIBIN $f
 
-  rc=$@
+  rc=$?
   echo "$f: $rc" >&2
 
 done;
