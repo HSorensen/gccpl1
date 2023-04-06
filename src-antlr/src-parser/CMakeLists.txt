@@ -33,19 +33,21 @@ set(ANTLR_EXECUTABLE /usr/local/lib/antlr4-4.10.2-SNAPSHOT-complete.jar)
 find_package(ANTLR REQUIRED)
 
 # Call macro to add lexer and grammar to your build dependencies.
-antlr_target(SampleGrammarLexer Pl1Lexer.g4 LEXER
+antlr_target(GnuPl1Lexer Pl1Lexer.g4 LEXER
              PACKAGE antlrcpptest)
-antlr_target(SampleGrammarParser Pl1Parser.g4 PARSER
+antlr_target(GnuPl1Parser Pl1Parser.g4 PARSER
              PACKAGE antlrcpptest
-             DEPENDS_ANTLR SampleGrammarLexer
-             COMPILE_FLAGS -lib ${ANTLR_SampleGrammarLexer_OUTPUT_DIR})
+             DEPENDS_ANTLR GnuPl1Lexer
+             COMPILE_FLAGS -lib ${ANTLR_GnuPl1Lexer_OUTPUT_DIR})
 
 # include generated files in project environment
-include_directories(${ANTLR_SampleGrammarLexer_OUTPUT_DIR})
-include_directories(${ANTLR_SampleGrammarParser_OUTPUT_DIR})
+include_directories(${ANTLR_GnuPl1Lexer_OUTPUT_DIR})
+include_directories(${ANTLR_GnuPl1Parser_OUTPUT_DIR})
 
-# add generated grammar to demo binary target
-add_executable(demo main.cpp
-               ${ANTLR_SampleGrammarLexer_CXX_OUTPUTS}
-               ${ANTLR_SampleGrammarParser_CXX_OUTPUTS})
-target_link_libraries(demo antlr4_static)
+# add generated grammar to gpli binary target
+add_executable(gpli main.cpp
+               ${ANTLR_GnuPl1Lexer_CXX_OUTPUTS}
+               ${ANTLR_GnuPl1Parser_CXX_OUTPUTS})
+target_link_libraries(gpli antlr4_static)
+
+install(TARGETS gpli RUNTIME)

@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #GCCPLIBIN=../../run/usr/local/share/antlr4-demo
-GCCPLIBIN=../../buildfolder/demo
+#GCCPLIBIN=../../buildfolder/demo
+GCCPLIBIN=gpli
 
 for  f in *.pl1; do
 
