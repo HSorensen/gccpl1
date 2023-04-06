@@ -4,8 +4,8 @@ channels { CommentsChannel, UnknownChannel, EmbedChannel }
 
 PP_INCLUDE      : '%' WSP* I N C L U D E WSP (.)*? ';' 
                    { 
-                     Lexer::performIncludeSourceFile(getText()); 
-                     skip();
+                     performIncludeSourceFile(getText()); 
+                     setChannel(EmbedChannel);
                    };
 
 PROCESS: '*' WSP* P R O C E S S (.)*? ';' ->skip ;
