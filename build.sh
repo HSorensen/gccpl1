@@ -6,4 +6,5 @@ docker run --rm --hostname gccpli -it -v $PWD/workdir:/workdir \
   -v $PWD/src-antlr/src-parser/main.cpp:/src-antlr/src-parser/main.cpp \
   -v $PWD/src-antlr/src-parser/Pl1Lexer.g4:/src-antlr/src-parser/Pl1Lexer.g4 \
   -v $PWD/src-antlr/src-parser/Pl1Parser.g4:/src-antlr/src-parser/Pl1Parser.g4 \
+  -v $PWD/src-antlr/src-parser/CMakeLists.txt:/src-antlr/src-parser/CMakeLists.txt \
   itsme/gccpl1x
