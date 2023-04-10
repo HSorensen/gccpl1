@@ -38,11 +38,12 @@ class Myincl: public LexerScannerIncludeSource {
   public:
         CharStream * embedSource(const std::string &lexerText) {
           std::cout << std::string("!!embedSource ") << lexerText << std::endl;
-          // TODO: Add includeDir option
-          // TODO: Add suffix option
+          // TODO: Add includeDir option std::vector<std::string> v = {"./", "include/"};
+          // TODO: Add suffix option std::vector<std::string> v = {".pli", ".pl#"};
           // Use https://regex101.com to validate 
           // lexerText contains "%include name ;"
-          std::regex e ("(%[ ]*include[ \']+)([a-z0-9_#@$.]+)([ \']*;)"
+          // regex groups: (%include ) (name) ( ;)
+          std::regex e ("(%[ ]*include[ \'\"]+)([a-z0-9_#@$.]+)([ \'\"]*;)"
           ,std::regex_constants::ECMAScript | std::regex_constants::icase);
           std::smatch sm;
           std::regex_match (lexerText,sm,e);
