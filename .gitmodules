@@ -1,0 +1,3 @@
+[submodule "src-gcc"]
+	path = src-gcc
+	url = https://github.com/HSorensen/gcc.git
