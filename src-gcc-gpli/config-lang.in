@@ -1,0 +1,14 @@
+# config-lang.in
+language="gpli"
+
+compilers="gpli1\$(exeext)"
+
+target_libs=""
+
+gtfiles="\$(srcdir)/gpli/gpli1.cc"
+
+# We will write the gpli FE in C++
+lang_requires_boot_languages=c++
+
+# Do not build by default
+build_by_default="no"

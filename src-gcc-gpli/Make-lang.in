@@ -1,0 +1,78 @@
+GCCGPLI_INSTALL_NAME := $(shell echo gccgpli|sed '$(program_transform_name)')
+GCCGPLI_TARGET_INSTALL_NAME := $(target_noncanonical)-$(shell echo gccgpli|sed '$(program_transform_name)')
+
+gpli: gpli1$(exeext)
+
+.PHONY: gpli
+
+# Driver
+
+GCCGPLI_OBJS = \
+   $(GCC_OBJS) \
+   gpli/gplispec.o \
+   $(END)
+
+gccgpli$(exeext): $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
+	+$(LINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
+	  $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a \
+	  $(EXTRA_GCC_LIBS) $(LIBS)
+
+# The compiler proper
+
+gpli_OBJS = \
+    gpli/gpli1.o \
+	gpli/gpli-convert.o \
+    $(END)
+
+gpli1$(exeext): attribs.o $(gpli_OBJS) $(BACKEND) $(LIBDEPS)
+	+$(LLINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
+	      attribs.o $(gpli_OBJS) $(BACKEND) $(LIBS) $(BACKENDLIBS)
+
+gpli.all.cross:
+
+gpli.start.encap: gccgpli$(exeext)
+gpli.rest.encap:
+
+gpli.install-common: installdirs
+	-rm -f $(DESTDIR)$(bindir)/$(GCCGPLI_INSTALL_NAME)$(exeext)
+	$(INSTALL_PROGRAM) gccgpli$(exeext) $(DESTDIR)$(bindir)/$(GCCGPLI_INSTALL_NAME)$(exeext)
+	rm -f $(DESTDIR)$(bindir)/$(GCCGPLI_TARGET_INSTALL_NAME)$(exeext); \
+	( cd $(DESTDIR)$(bindir) && \
+      $(LN) $(GCCGPLI_INSTALL_NAME)$(exeext) $(GCCGPLI_TARGET_INSTALL_NAME)$(exeext) ); \
+
+# Required goals, they still do nothing
+gpli.install-man:
+gpli.install-info:
+gpli.install-pdf:
+gpli.install-plugin:
+gpli.install-html:
+gpli.info:
+gpli.dvi:
+gpli.pdf:
+gpli.html:
+gpli.man:
+gpli.mostlyclean:
+gpli.clean:
+gpli.distclean:
+gpli.maintainer-clean:
+# No gpli-specific selftests
+selftest-gpli:
+
+# make uninstall
+gpli.uninstall:
+	-rm -f gccgpli$(exeext) gpli1$(exeext)
+	-rm -f $(gpli_OBJS)
+
+# Used for handling bootstrap
+gpli.stage1: stage1-start
+	-mv gpli/*$(objext) stage1/gpli
+gpli.stage2: stage2-start
+	-mv gpli/*$(objext) stage2/gpli
+gpli.stage3: stage3-start
+	-mv gpli/*$(objext) stage3/gpli
+gpli.stage4: stage4-start
+	-mv gpli/*$(objext) stage4/gpli
+gpli.stageprofile: stageprofile-start
+	-mv gpli/*$(objext) stageprofile/gpli
+gpli.stagefeedback: stagefeedback-start
+	-mv gpli/*$(objext) stagefeedback/gpli
