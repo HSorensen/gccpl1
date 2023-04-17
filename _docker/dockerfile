@@ -70,3 +70,39 @@ RUN cd buildfolder && make -j 2
 # Generated executable is buildfolder/gpli
 # Install into /usr/local/bin
 RUN cd buildfolder && make install
+
+FROM base as gccbuild
+
+RUN apk add --no-cache gcc g++ gdb bison flex file texinfo
+RUN apk add --no-cache cmake make pkgconf util-linux-dev nano linux-headers
+
+# Copy gpli executable from antlr4 step
+COPY --from=antlr4 /usr/local/bin/* /usr/local/bin
+
+# -------
+# GCC Compilation
+# See https://thinkingeek.com/2016/01/06/tiny-gcc-front-part-2/
+# -------
+# Copy frontend project source code
+COPY src-gcc /src-gcc
+COPY src-gcc-gpli /src-gcc/gcc/gpli
+
+# Create build and install folders
+RUN mkdir gcc-build gcc-install
+
+# Build c and c++ from source
+RUN cd src-gcc && ./contrib/download_prerequisites 
+RUN cd gcc-build &&  ../src-gcc/configure --prefix=/gcc-install --disable-multilib --enable-languages=c,c++,gpli
+RUN cd gcc-build && make -j 3
+RUN cd gcc-build && make -j 3 install
+
+# 
+# build GNU PLI FRONTEND for the PL/I programming language
+#
+#FROM gccbuild as gnupli
+
+#COPY src-gcc-gpli /src-gcc/gcc/gpli
+
+# RUN cd gcc-build && ../src-gcc/configure --prefix=/gcc-install --disable-bootstrap --disable-multilib --enable-languages=c,c++,gpli
+# RUN cd gcc-build && make -j 2
+# RUN cd gcc-build && make -j 2 install
