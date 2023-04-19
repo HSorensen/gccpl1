@@ -1,6 +1,8 @@
 # PL/I Compiler Project
 GCC Frontend for the PL1 language
 
+Inspired by [Think In Geek's Tiny](https://thinkingeek.com/gcc-tiny/)
+
 ## Quick Steps to getting Started
 
 - git clone https://github.com/HSorensen/gccpl1 gccpl1
