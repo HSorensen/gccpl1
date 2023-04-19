@@ -1,0 +1,22 @@
+# struct.tiny
+type my_tuple : record
+  a : int;
+  b : float;
+end;
+
+var x : my_tuple;
+
+write "Enter an integer:";
+read x.a;
+write "Enter a float:";
+read x.b;
+
+x.a := x.a + 1;
+x.b := x.b + 3.4;
+
+write "Tuple:";
+write "  x.a=";
+write x.a;
+write "  x.b=";
+write x.b;
+

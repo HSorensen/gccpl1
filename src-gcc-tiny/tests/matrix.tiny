@@ -1,0 +1,9 @@
+# matrix.tiny
+var a : int[10][20];
+
+a[1][2] := 11;
+a[2][3] := 22;
+
+write a[1][2];
+write a[2][3];
+

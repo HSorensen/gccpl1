@@ -1,0 +1,19 @@
+# array.tiny
+var a : int[10];
+
+a[1] := 11;
+a[2] := 22;
+
+write a[1];
+write a[2];
+
+var b : int(2:4);
+
+b[2] := 55;
+b[3] := 66;
+b[4] := 77;
+
+write b[2];
+write b[3];
+write b[4];
+

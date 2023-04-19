@@ -1,0 +1,36 @@
+var a : bool;
+var b : bool;
+
+a := true;
+b := false;
+
+if a
+then
+  write "OK 1";
+end
+
+if not b
+then
+  write "OK 2";
+end
+
+if a or b
+then
+  write "OK 3";
+end
+
+if b or a
+then
+  write "OK 4";
+end
+
+if not (a and b)
+then
+  write "OK 5";
+end
+
+if not (b and a)
+then
+  write "OK 6";
+end
+

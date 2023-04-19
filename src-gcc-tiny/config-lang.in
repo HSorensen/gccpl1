@@ -1,0 +1,14 @@
+# gcc-src/gcc/config/config-lang.in
+language="tiny"
+
+compilers="tiny1\$(exeext)"
+
+target_libs=""
+
+gtfiles="\$(srcdir)/tiny/tiny1.cc"
+
+# We will write the tiny FE in C++
+lang_requires_boot_languages=c++
+
+# Do not build by default
+build_by_default="no"

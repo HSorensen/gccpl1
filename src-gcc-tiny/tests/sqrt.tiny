@@ -1,0 +1,14 @@
+# sqrt.tiny
+var s : float;
+s := 2.0;
+
+var i : int;
+
+var x : float;
+x := 1.0;
+for i := 1 to 100 do
+  x := 0.5 * (x + s / x);
+end
+
+write x;
+

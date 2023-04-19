@@ -1,0 +1,19 @@
+type my_int : int;
+type i : my_int;
+
+var x : my_int;
+var y : i[2];
+
+x := 42;
+write x;
+y[1] := x + 1;
+write y[1];
+
+
+type my_int_array : my_int[2];
+
+var z : my_int_array;
+
+z[1] := y[1] + 1;
+write z[1];
+

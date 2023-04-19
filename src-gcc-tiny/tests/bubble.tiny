@@ -1,0 +1,42 @@
+# bubble.tiny
+var n : int;
+write "Enter the number of integers:";
+read n;
+
+write "Enter the integers:";
+
+var i : int;
+var a : int[n];
+for i := 0 to n - 1
+do
+   read a[i];
+end
+
+# Very inefficient bubble sort used
+# only as an example
+
+var swaps : int;
+swaps := 1;
+while swaps > 0
+do
+  swaps := 0;
+  for i := 1 to n - 1
+  do
+     if a[i - 1] > a[i]
+     then
+       var t : int;
+       t := a[i-1];
+       a[i-1] := a[i];
+       a[i] := t;
+       swaps := swaps + 1;
+     end
+  end 
+end
+
+write "Sorted numbers:";
+
+for i := 0 to n - 1
+do
+   write a[i];
+end
+

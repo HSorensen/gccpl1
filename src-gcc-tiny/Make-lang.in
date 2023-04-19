@@ -1,0 +1,83 @@
+GCCTINY_INSTALL_NAME := $(shell echo gcctiny|sed '$(program_transform_name)')
+GCCTINY_TARGET_INSTALL_NAME := $(target_noncanonical)-$(shell echo gcctiny|sed '$(program_transform_name)')
+
+tiny: tiny1$(exeext)
+
+.PHONY: tiny
+
+# Driver
+
+GCCTINY_OBJS = \
+   $(GCC_OBJS) \
+   tiny/tinyspec.o \
+   $(END)
+
+gcctiny$(exeext): $(GCCTINY_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
+	+$(LINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
+	  $(GCCTINY_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a \
+	  $(EXTRA_GCC_LIBS) $(LIBS)
+
+# The compiler proper
+
+tiny_OBJS = \
+    tiny/tiny1.o \
+    tiny/tiny-parser.o \
+    tiny/tiny-token.o \
+    tiny/tiny-lexer.o \
+    tiny/tiny-symbol-mapping.o \
+    tiny/tiny-scope.o \
+    tiny/tiny-convert.o \
+    $(END)
+
+tiny1$(exeext): attribs.o $(tiny_OBJS) $(BACKEND) $(LIBDEPS)
+	+$(LLINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
+	      attribs.o $(tiny_OBJS) $(BACKEND) $(LIBS) $(BACKENDLIBS)
+
+tiny.all.cross:
+
+tiny.start.encap: gcctiny$(exeext)
+tiny.rest.encap:
+
+tiny.install-common: installdirs
+	-rm -f $(DESTDIR)$(bindir)/$(GCCTINY_INSTALL_NAME)$(exeext)
+	$(INSTALL_PROGRAM) gcctiny$(exeext) $(DESTDIR)$(bindir)/$(GCCTINY_INSTALL_NAME)$(exeext)
+	rm -f $(DESTDIR)$(bindir)/$(GCCTINY_TARGET_INSTALL_NAME)$(exeext); \
+	( cd $(DESTDIR)$(bindir) && \
+      $(LN) $(GCCTINY_INSTALL_NAME)$(exeext) $(GCCTINY_TARGET_INSTALL_NAME)$(exeext) ); \
+
+# Required goals, they still do nothing
+tiny.install-man:
+tiny.install-info:
+tiny.install-pdf:
+tiny.install-plugin:
+tiny.install-html:
+tiny.info:
+tiny.dvi:
+tiny.pdf:
+tiny.html:
+tiny.man:
+tiny.mostlyclean:
+tiny.clean:
+tiny.distclean:
+tiny.maintainer-clean:
+
+# make uninstall
+tiny.uninstall:
+	-rm -f gcctiny$(exeext) tiny1$(exeext)
+	-rm -f $(tiny_OBJS)
+
+# Used for handling bootstrap
+tiny.stage1: stage1-start
+	-mv tiny/*$(objext) stage1/tiny
+tiny.stage2: stage2-start
+	-mv tiny/*$(objext) stage2/tiny
+tiny.stage3: stage3-start
+	-mv tiny/*$(objext) stage3/tiny
+tiny.stage4: stage4-start
+	-mv tiny/*$(objext) stage4/tiny
+tiny.stageprofile: stageprofile-start
+	-mv tiny/*$(objext) stageprofile/tiny
+tiny.stagefeedback: stagefeedback-start
+	-mv tiny/*$(objext) stagefeedback/tiny
+
+selftest-tiny:
