@@ -1,5 +1,9 @@
 # minimum required CMAKE version
 CMAKE_MINIMUM_REQUIRED(VERSION 3.7 FATAL_ERROR)
+set( CMAKE_BUILD_TYPE Debug )
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -48,6 +52,11 @@ include_directories(${ANTLR_GnuPl1Parser_OUTPUT_DIR})
 add_executable(gpli main.cpp
                ${ANTLR_GnuPl1Lexer_CXX_OUTPUTS}
                ${ANTLR_GnuPl1Parser_CXX_OUTPUTS})
-target_link_libraries(gpli antlr4_static)
+set_property(TARGET gpli PROPERTY COMPILE_OPTIONS "-pthread")
+target_link_libraries(gpli antlr4_static pthread )
+# To avoid runtime error (https://stackoverflow.com/questions/19463602/compiling-multithread-code-with-g)
+#    and   -       -     (https://stackoverflow.com/questions/51584960/stdcall-once-throws-stdsystem-error-unknown-error-1)
+target_link_options(gpli PUBLIC "-Wl,--no-as-needed")
+#target_link_libraries(gpli antlr4_static PUBLIC Threads::Threads)
 
 install(TARGETS gpli RUNTIME)
