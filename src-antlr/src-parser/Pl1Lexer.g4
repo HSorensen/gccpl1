@@ -2,14 +2,9 @@ lexer grammar Pl1Lexer;
 
 channels { CommentsChannel, UnknownChannel, EmbedChannel }
 
-PP_INCLUDE      : '%' WSP* I N C L U D E WSP (.)*? ';' 
-                   { 
-                     performIncludeSourceFile(getText()); 
-                     setChannel(EmbedChannel);
-                   };
-
+PP_INCLUDE      : '%' WSP* I N C L U D E ->channel(EmbedChannel), pushMode(Embedding);
+                   
 PROCESS: '*' WSP* P R O C E S S (.)*? ';' ->skip ;
-
         
 A_              : A;
 ABNORMAL        : A B N O R M A L;
@@ -406,3 +401,21 @@ fragment W: [wW];
 fragment X: [xX];
 fragment Y: [yY];
 fragment Z: [zZ];
+
+// Extract filename to be embedded
+mode Embedding;
+WS__: [ \t\r\n]+ -> skip;
+SEMI__: SEMI_ { setChannel(EmbedChannel); setEmbedReady(); popMode(); };
+NAME__: VARNAME DOT_? VARNAME? { setChannel(EmbedChannel); setEmbedName( getText() );  };
+Q_1: '"' -> skip,pushMode(Embed1);
+Q_2: '\'' -> skip,pushMode(Embed2);
+
+// For embedding filenames surrounded by double quotes
+mode Embed1;
+Q__1: '"' -> skip,popMode;
+NAME__1: VARNAME DOT_? VARNAME? { setChannel(EmbedChannel); setEmbedName( getText() );  };
+
+// For embedding filenames surrounded by single quotes
+mode Embed2;
+Q__2: '\'' -> skip,popMode;
+NAME__2: VARNAME DOT_? VARNAME? { setChannel(EmbedChannel); setEmbedName( getText() );  };

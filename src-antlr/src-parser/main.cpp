@@ -38,22 +38,29 @@ class Myincl: public LexerScannerIncludeSource {
   public:
         CharStream * embedSource(const std::string &lexerText) {
           std::cout << std::string("!!embedSource ") << lexerText << std::endl;
+          // TODO: Adjust to ->channel(EmbedChannel), pushMode(Embedding); handling of %include. See comments in Pl1Lexer.g4
+          auto out = LexerScannerIncludeSource::embedSource(lexerText);
+          if (out) return out;
+
+          // try with include/ preprended
+          std::cout << std::string("!!embedSource trying include/") << lexerText << std::endl;
+          return LexerScannerIncludeSource::embedSource("include/"+lexerText);
           // TODO: Add includeDir option std::vector<std::string> v = {"./", "include/"};
           // TODO: Add suffix option std::vector<std::string> v = {".pli", ".pl#"};
           // Use https://regex101.com to validate 
           // lexerText contains "%include name ;"
           // regex groups: (%include ) (name) ( ;)
-          std::regex e ("(%[ ]*include[ \'\"]+)([a-z0-9_#@$.]+)([ \'\"]*;)"
-          ,std::regex_constants::ECMAScript | std::regex_constants::icase);
-          std::smatch sm;
-          std::regex_match (lexerText,sm,e);
-          std::cout << " 0 " << sm[0] << std::endl;
-          std::cout << " 1 " << sm[1] << std::endl;
-          std::cout << " 2 " << sm[2] << std::endl;
-          std::cout << " 3 " << sm[3] << std::endl;
-          if (sm.size()>2) {
-            return LexerScannerIncludeSource::embedSource(sm[2]);
-          }
+          //std::regex e ("(%[ ]*include[ \'\"]+)([a-z0-9_#@$.]+)([ \'\"]*;)"
+          //,std::regex_constants::ECMAScript | std::regex_constants::icase);
+          //std::smatch sm;
+          //std::regex_match (lexerText,sm,e);
+          //std::cout << " 0 " << sm[0] << std::endl;
+          //std::cout << " 1 " << sm[1] << std::endl;
+          //std::cout << " 2 " << sm[2] << std::endl;
+          //std::cout << " 3 " << sm[3] << std::endl;
+          //if (sm.size()>2) {
+          //  return LexerScannerIncludeSource::embedSource(sm[2]);
+          //}
 
           // TODO: Throw error
           return nullptr ;
