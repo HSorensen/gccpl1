@@ -1,0 +1,64 @@
+@c -*-texinfo-*-
+@c Copyright (C) 2023-2023 Free Software Foundation, Inc.
+@c This is part of the GCC manual.
+@c For copying conditions, see the file gcc.texi.
+
+@c ---------------------------------------------------------------------
+@c PL/I Programming Reference Manual
+@c ---------------------------------------------------------------------
+
+@contents
+
+@node Top
+@top GNU PL/I Programming Reference
+
+This book is for GNU PL/I programmers and system programmers. 
+This will help you understand how to  use GNU PL/I for your application development 
+and how to integrate GNU PL/I into your enterprise.
+
+Guiding Principles
+- PL/I History
+- Compatibility
+
+Compiling with GNU PL/I
+- Preprocessor 
+- - %INCLUDE resolution
+- Built-in
+- Source Code, Compilation Units, Main, Modules
+- External Reference Resolution
+
+Using GNU PL/I Input/Output
+- SYSPRINT / MSGFILE
+
+Understand the GNU PL/I compiler implementation
+- Source file
+- - Bindings
+- - - PROC OPTIONS(MAIN)
+- - - PROC
+- - - ENTRY Points
+- - External Declartions
+- - - EXTERNAL STATIC
+- - - EXTERNAL FILE
+- - - EXTERNAL ENTRY
+- - - FETCH
+- - Variable Declartions
+- - - FIXED/FLOAT BIN/DEC
+- - - CHAR / VAR CHAR
+- - - BASED
+- - - CONTROLLED
+- - Control Flows
+- - - Error Conditions
+- - - - ONERROR / ONCODE / ONSOURCE
+- - - Computational Conditions
+- - - - underflow, overflow, zerodiv, ...
+- - - Other Conditions
+- - - - ONPAGE / ONLINE ...
+
+- Debugging
+
+- Interlanguage considerations
+- - Calling C / C++ / Java / ...
+
+- Multi-threading Facities
+
+

@@ -1,0 +1,17 @@
+@c -*-texinfo-*-
+@c Copyright (C) 2023-2023 Free Software Foundation, Inc.
+@c This is part of the GCC manual.
+@c For copying conditions, see the file gcc.texi.
+
+@c ---------------------------------------------------------------------
+@c PL/I Programming Reference Manual
+@c ---------------------------------------------------------------------
+
+@contents
+
+@node Top
+@top PLI Sample
+
+This book is for GNU PL/I programmers and system programmers. 
+This will help you understand how to  use GNU PL/I for your application development 
+and how to integrate GNU PL/I into your enterprise.
