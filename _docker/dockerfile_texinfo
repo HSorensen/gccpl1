@@ -1,0 +1,15 @@
+#
+# Create docker image so VS code extension texinfo can run makeinfo 
+# Build as docker build -f _docker/dockerfiles_texinfo -t itsme/texinfo .
+# See _docker/bin/makeinfo.sh for details on how to execute
+#
+FROM debian
+
+# Install Base
+RUN apt update
+# Install utils
+RUN apt --yes install wget curl unzip tree nano git
+# Install texinfo
+RUN apt --yes install texinfo
+
+WORKDIR /root
