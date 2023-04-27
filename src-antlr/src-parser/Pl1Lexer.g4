@@ -1,5 +1,9 @@
 lexer grammar Pl1Lexer;
 
+@lexer::members {
+std::ostringstream ss__0; 
+}
+
 channels { CommentsChannel, UnknownChannel, EmbedChannel }
 
 PP_INCLUDE      : '%' WSP* I N C L U D E ->channel(EmbedChannel), pushMode(Embedding);
@@ -367,7 +371,15 @@ SEMI_:';';
 VARNAME: (CHR|LET)(CHR|LET|[0-9])* ;
 WSP: (' '|'\t'|'\n'|'\r')+ -> skip;
 
-UNKNOWN : .  ->channel(UnknownChannel) ; 
+UNKNOWN : .  { /* Convert unknown character to hex string to ensure it can be printed */
+               ss__0.clear(); ss__0.seekp(0);
+               ss__0 <<"0x";
+               for (const auto &item: getText()){
+                ss__0<< std::hex<< int(item);
+               }
+               setText( ss__0.str()); 
+               setChannel(UnknownChannel); 
+              }; 
 
 fragment NBR: [0-9][0-9_]*;
 fragment LET: [A-Za-z]+;
