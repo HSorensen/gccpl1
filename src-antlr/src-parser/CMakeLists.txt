@@ -58,5 +58,30 @@ target_link_libraries(gpli antlr4_static pthread )
 #    and   -       -     (https://stackoverflow.com/questions/51584960/stdcall-once-throws-stdsystem-error-unknown-error-1)
 target_link_options(gpli PUBLIC "-Wl,--no-as-needed")
 #target_link_libraries(gpli antlr4_static PUBLIC Threads::Threads)
-
 install(TARGETS gpli RUNTIME)
+
+
+# -----------------------
+# Create libglibantlr.so
+# -----------------------
+
+
+add_library(gpliantlr 
+               ${ANTLR_GnuPl1Lexer_CXX_OUTPUTS}
+               ${ANTLR_GnuPl1Parser_CXX_OUTPUTS}
+)
+
+# Headers
+set(GPLI_PUBLIC_HEADERS
+ "../build/antlr4_runtime/src/antlr4_runtime/runtime/Cpp/runtime/src/antlr4-runtime.h"
+ "../build/antlr4cpp_generated_src/Pl1Lexer/Pl1Lexer.h"
+ "../build/antlr4cpp_generated_src/Pl1Parser/Pl1Parser.h"   
+ )
+
+set_target_properties(gpliantlr PROPERTIES 
+PUBLIC_HEADER "${GPLI_PUBLIC_HEADERS}"
+)
+
+
+target_link_libraries(gpliantlr antlr4_static)
+install(TARGETS gpliantlr LIBRARY )
