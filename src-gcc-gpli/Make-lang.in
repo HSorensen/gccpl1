@@ -15,7 +15,7 @@ GCCGPLI_OBJS = \
 gccgpli$(exeext): $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
 	+$(LINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
 	  $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a \
-	  $(EXTRA_GCC_LIBS) $(LIBS)
+	  $(EXTRA_GCC_LIBS) $(LIBS) libgpliantlr.a
 
 # The compiler proper
 
