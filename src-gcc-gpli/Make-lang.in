@@ -12,10 +12,10 @@ GCCGPLI_OBJS = \
    gpli/gplispec.o \
    $(END)
 
-gccgpli$(exeext): $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
+gccgpli$(exeext): $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS) gpli/libgpliantlr.a
 	+$(LINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
 	  $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a \
-	  $(EXTRA_GCC_LIBS) $(LIBS) libgpliantlr.a
+	  $(EXTRA_GCC_LIBS) $(LIBS) gpli/libgpliantlr.a
 
 # The compiler proper
 
@@ -27,6 +27,26 @@ gpli_OBJS = \
 gpli1$(exeext): attribs.o $(gpli_OBJS) $(BACKEND) $(LIBDEPS)
 	+$(LLINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
 	      attribs.o $(gpli_OBJS) $(BACKEND) $(LIBS) $(BACKENDLIBS)
+
+# ----------------------------------------------------------------------------------------
+# ANTLR Frontend support library, and needed headerfiles
+# TODO: Add config of /usr/local/lib path
+# TODO: Add setup of cmake for antlr c++ runtime build
+# TODO: Add build of antlr tool from https://github.com/HSorensen/antlr4/tree/lexerinclude
+
+gpli/libgpliantlr.a: /usr/local/lib/libgpliantlr.a
+	cp /usr/local/lib/libgpliantlr.a gpli/libgpliantlr.a
+
+/usr/local/lib/libgpliantlr.a:
+	cd /src-antlr/build && make install
+
+# Note install include:
+# /usr/local/lib/libgpliantlr.a
+# /usr/local/include/antlr4-runtime.h
+# /usr/local/include/Pl1Lexer.h
+# /usr/local/include/Pl1Parser.h
+
+# ----------------------------------------------------------------------------------------
 
 gpli.all.cross:
 
