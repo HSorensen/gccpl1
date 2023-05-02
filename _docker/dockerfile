@@ -11,7 +11,7 @@ ENV ENV=/etc/profile
 # Install Base
 RUN apt update
 #RUN apk upgrade
-RUN apt --yes install wget curl unzip tree nano git
+RUN apt --yes install wget curl unzip tree nano git python3 lsof
 
 #
 # antlr4 - Build
