@@ -3,7 +3,11 @@ GCCGPLI_TARGET_INSTALL_NAME := $(target_noncanonical)-$(shell echo gccgpli|sed '
 
 gpli: gpli1$(exeext)
 
+gpli.serial = gpli1$(exeext)
+
 .PHONY: gpli
+
+CFLAGS-gpli/gplispec.o += $(DRIVER_DEFINES)
 
 # Driver
 
@@ -12,16 +16,18 @@ GCCGPLI_OBJS = \
    gpli/gplispec.o \
    $(END)
 
-gccgpli$(exeext): $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS) gpli/libgpliantlr.a
+gccgpli$(exeext): $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
 	+$(LINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
 	  $(GCCGPLI_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a \
-	  $(EXTRA_GCC_LIBS) $(LIBS) gpli/libgpliantlr.a
+	  $(EXTRA_GCC_LIBS) $(LIBS)
 
 # The compiler proper
 
 gpli_OBJS = \
+	gpli/libgpliantlr.a \
     gpli/gpli1.o \
 	gpli/gpli-convert.o \
+	gpli/gpli-parser.o \
     $(END)
 
 gpli1$(exeext): attribs.o $(gpli_OBJS) $(BACKEND) $(LIBDEPS)
@@ -36,19 +42,29 @@ gpli1$(exeext): attribs.o $(gpli_OBJS) $(BACKEND) $(LIBDEPS)
 
 gpli/libgpliantlr.a: /usr/local/lib/libgpliantlr.a
 	cp /usr/local/lib/libgpliantlr.a gpli/libgpliantlr.a
+	cp -R /usr/local/include/antlr/src/* gpli/
+	cp /usr/local/include/antlr/Pl1Lexer/Pl1Lexer.h gpli/
+	cp /usr/local/include/antlr/Pl1Parser/Pl1Parser.h gpli/
+
 
 /usr/local/lib/libgpliantlr.a:
 	cd /src-antlr/build && make install
 
 # Note install include:
 # /usr/local/lib/libgpliantlr.a
-# /usr/local/include/antlr4-runtime.h
-# /usr/local/include/Pl1Lexer.h
-# /usr/local/include/Pl1Parser.h
+# /usr/local/include/antlr/src/antlr4-runtime.h
+# /usr/local/include/antlr/Pl1Lexer/Pl1Lexer.h
+# /usr/local/include/antlr/Pl1Parser/Pl1Parser.h
 
 # ----------------------------------------------------------------------------------------
 
-gpli.all.cross:
+# Build hooks.
+
+lang_checks += check-gpli
+lang_checks_parallelized += check-gpli
+check_gpli_parallelize = 10
+
+gpli.all.cross: gccgpli$(exeext)
 
 gpli.start.encap: gccgpli$(exeext)
 gpli.rest.encap:
@@ -96,3 +112,11 @@ gpli.stageprofile: stageprofile-start
 	-mv gpli/*$(objext) stageprofile/gpli
 gpli.stagefeedback: stagefeedback-start
 	-mv gpli/*$(objext) stagefeedback/gpli
+
+
+#CFLAGS-gpli/gpli-parser.o += -fexceptions -frtti
+
+# build gpli-parser includes
+gpli/gpli-parser.o: gpli/gpli-parser.cc
+	$(COMPILE) $(CXXFLAGS) -fexceptions -frtti $<
+	$(POSTCOMPILE)
