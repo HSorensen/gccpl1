@@ -11,7 +11,7 @@ ENV ENV=/etc/profile
 # Install Base
 RUN apt update
 #RUN apk upgrade
-RUN apt --yes install wget curl unzip tree nano git python3 lsof
+RUN apt --yes install wget curl unzip tree nano git python3 pip lsof
 
 #
 # antlr4 - Build
@@ -48,8 +48,9 @@ COPY --from=build_antlr4 /opt/antlr4/tool/target/${ANTLR_TOOL} /usr/local/lib/${
 RUN apt --yes install openjdk-11-jdk
 
 # Install GCC and G++
-RUN apt --yes install gcc g++ gdb bison flex file texinfo cmake make pkgconf util-linux uuid-dev nano linux-headers-amd64
-
+RUN apt --yes install gcc g++ gdb bison flex file texinfo make pkgconf util-linux uuid-dev nano linux-headers-amd64
+# Install latest version of cmake
+RUN pip install cmake
 
 # Setup runtime alias and classpath
 RUN echo "alias antlr4='java -jar /usr/local/lib/${ANTLR_TOOL}'" > /etc/profile.d/antlr4_alias.sh \
