@@ -14,6 +14,7 @@
 #include "langhooks.h"
 #include "langhooks-def.h"
 #include "common/common-target.h"
+#include "gpli/gpli-parser.h"
 
 /* Language-dependent contents of a type.  */
 
@@ -77,6 +78,7 @@ static void
 gpli_langhook_parse_file (void)
 {
   fprintf(stderr, "Hello mighty gccpli!\n");
+  gpli_parse_files (num_in_fnames, in_fnames);
 }
 
 static tree
