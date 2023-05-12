@@ -71,17 +71,23 @@ add_library(gpliantlr
                ${ANTLR_GnuPl1Parser_CXX_OUTPUTS}
 )
 
-# Headers
-set(GPLI_PUBLIC_HEADERS
- "../build/antlr4_runtime/src/antlr4_runtime/runtime/Cpp/runtime/src/antlr4-runtime.h"
- "../build/antlr4cpp_generated_src/Pl1Lexer/Pl1Lexer.h"
- "../build/antlr4cpp_generated_src/Pl1Parser/Pl1Parser.h"   
- )
+target_link_libraries(gpliantlr antlr4_static)
 
-set_target_properties(gpliantlr PROPERTIES 
-PUBLIC_HEADER "${GPLI_PUBLIC_HEADERS}"
+# Headers
+# Note dest is /usr/local/include/antlr/src/
+install( 
+   DIRECTORY ${ANTLR4_INCLUDE_DIRS} DESTINATION include/antlr FILES_MATCHING PATTERN "*.h"
+    )
+# Note dest is /usr/local/include/antlr/Pl1Parser/
+install( 
+   DIRECTORY ${ANTLR_GnuPl1Parser_OUTPUT_DIR} DESTINATION include/antlr FILES_MATCHING PATTERN "Pl1Parser.h"
+    )
+# Note dest is /usr/local/include/antlr/Pl1Lexer/
+install( 
+   DIRECTORY ${ANTLR_GnuPl1Lexer_OUTPUT_DIR} DESTINATION include/antlr FILES_MATCHING PATTERN "Pl1Lexer.h"
+    )
+
+install(TARGETS gpliantlr
+   LIBRARY
 )
 
-
-target_link_libraries(gpliantlr antlr4_static)
-install(TARGETS gpliantlr LIBRARY )
