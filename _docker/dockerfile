@@ -12,6 +12,9 @@ ENV ENV=/etc/profile
 RUN apt update
 #RUN apk upgrade
 RUN apt --yes install wget curl unzip tree nano git python3 pip lsof
+# Install Java
+RUN apt --yes install openjdk-11-jdk
+
 
 #
 # antlr4 - Build
@@ -22,7 +25,7 @@ FROM base as build_antlr4
 # Result is the antlr-tool in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
 
 # Install Java and Maven needed to build antlr
-RUN apt --yes install openjdk-11-jdk maven
+RUN apt --yes install maven
 
 # Prepare runtime enviroment
 RUN mkdir /opt/antlr4
@@ -44,9 +47,6 @@ ARG ANTLR_TOOL
 # Prepare runtime
 COPY --from=build_antlr4 /opt/antlr4/tool/target/${ANTLR_TOOL} /usr/local/lib/${ANTLR_TOOL}
 
-# Install Java
-RUN apt --yes install openjdk-11-jdk
-
 # Install GCC and G++
 RUN apt --yes install gcc g++ gdb bison flex file texinfo make pkgconf util-linux uuid-dev nano linux-headers-amd64
 # Install latest version of cmake
@@ -61,10 +61,10 @@ COPY src-antlr /src-antlr
 
 # Build gpli parser: compile src-parser/main.cpp
 RUN mkdir -p /src-antlr/build && cd /src-antlr/build && cmake ../src-parser
-RUN cd /src-antlr/build && make -j 2 antlr4_runtime-build_static
+RUN cd /src-antlr/build && make -j antlr4_runtime-build_static
 
 # Build gpli from main.cpp
-RUN cd /src-antlr/build && make -j 2
+RUN cd /src-antlr/build && make -j
 # Generated executable is buildfolder/gpli
 # Install into /usr/local/bin
 RUN cd /src-antlr/build && make install
@@ -85,5 +85,5 @@ RUN mkdir gcc-build gcc-install
 # Build c and c++ from source
 RUN cd src-gcc && ./contrib/download_prerequisites 
 RUN cd gcc-build && ../src-gcc/configure --prefix=/gcc-install --disable-multilib --enable-languages=c,c++,gpli,tiny
-RUN cd gcc-build && make -j 3
-RUN cd gcc-build && make -j 3 install
+RUN cd gcc-build && make -j
+RUN cd gcc-build && make -j install
