@@ -10,8 +10,9 @@ Inspired by [Think In Geek's Tiny](https://thinkingeek.com/gcc-tiny/)
 
 If you cloned the gccpl1 project without the ```---recurse-submodules``` option, do this:
 
-- ```git submodule update --init --recursive```
-
+- ```git submodule init```
+- ```git submodule update --progress```
+- ```sh build.sh```
 
 ## Project Structure
 
