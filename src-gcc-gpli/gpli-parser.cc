@@ -41,7 +41,15 @@ static void gpli_parse_file (const char *filename);
 
 void
 gpli_parse_files (int num_files, const char **files)
-{
+{ 
+  if (flag_gpli_verbose)
+    fprintf (stderr, "gpli_parse_files: option verbose enabled\n");
+  else
+    fprintf (stderr, "gpli_parse_files: option verbose not enabled\n");
+
+  if (flag_gpli_verbose) {
+    fprintf (stderr, "number of files: %i\n", num_files);
+  }
   for (int i = 0; i < num_files; i++)
     {
       gpli_parse_file (files[i]);
