@@ -1,7 +1,7 @@
 @echo off
 REM Create Docker image for gccpli compiler
 REM 
-set IMAGENAME=itsme/gccpl1y
+set IMAGENAME=itsme/gccpl1
 
 REM Check src-gcc is properly updated
 if not exist "src-gcc\gcc\" (
@@ -31,7 +31,7 @@ IF %ERRORLEVEL% NEQ 0 (
 ::full=""
 
 ::if [ "$full" -eq "" ]; then
-docker run --rm --hostname gccpli -it -v %CD%\workdir:/workdir -v %CD%\src-gcc-gpli:/src-gcc/gcc/gpli %IMAGENAME%
+docker run --rm --hostname gccpli -it -v %CD%\workdir:/workdir -v %CD%\src-gcc-gpli:/src-gcc/gcc/gpli -v %CD%\src-gcc\gcc\rust:/src-gcc/gcc/rust %IMAGENAME%
 ::else
 ::docker run --rm --hostname gccpli -it -v $PWD/workdir:/workdir \
 ::  -v $PWD/src-antlr/src-parser/cmake:/src-antlr/src-parser/cmake \
