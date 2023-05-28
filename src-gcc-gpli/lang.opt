@@ -28,16 +28,10 @@
 Language
 gpli
 
-verbose
-gpli Var(flag_gpli_verbose)
-Enable verbose output from Gpli front end
-
-
 I
 gpli Joined Separate
 ; Documented in C
 
-
-fgpli-debug
-gpli Var(flag_gpli_debug)
-Dump various Gpli front end internals.
+fgpli-verbose
+gpli Var(flag_gpli_verbose)
+Produce verbose output from GNU PL/I frontend.
