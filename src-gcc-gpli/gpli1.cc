@@ -77,7 +77,13 @@ gpli_langhook_init (void)
 static void
 gpli_langhook_parse_file (void)
 {
-  fprintf(stderr, "Hello mighty gccpli!\n");
+   if (flag_gpli_verbose)
+    fprintf (stderr, "gpli_langhook_parse_file: option verbose enabled\n");
+  else
+    fprintf (stderr, "gpli_langhook_parse_file: option verbose not enabled\n");
+
+  fprintf(stderr, "Hello mighty gccpli!!!!\n");
+  fprintf(stderr, "Numfiles %i\n",num_in_fnames);
   gpli_parse_files (num_in_fnames, in_fnames);
 }
 
@@ -162,14 +168,112 @@ gpli_langhook_getdecls (void)
   return NULL;
 }
 
+/* The option mask. Set in lang.opt. This enables the init_handle_option function. */
+static unsigned int
+gpli_langhook_option_lang_mask (void)
+{
+  return CL_gpli;
+}
+
+
+/* Generic hook that takes a struct gcc_options * and returns void.  */
+
+void
+gpli_init_options_struct (struct gcc_options *cli_options)
+{ fprintf (stderr, "gpli_init_options_struct: x_verbose_flag %i \n",cli_options->x_verbose_flag);
+flag_gpli_verbose=false;
+}
+
+/* Called to perform language-specific options initialization.  */
+void gpli_init_options(unsigned int decoded_options_count,
+                       struct cl_decoded_option *decoded_options)
+{
+  fprintf(stderr, "gpli_init_options: decoded_options_count %i\n", decoded_options_count);
+
+  unsigned int i;
+
+  for (i = 1; i < decoded_options_count; i++)
+  {
+      enum opt_code code = (enum opt_code)decoded_options[i].opt_index;
+      const struct cl_option *option = &cl_options[code];
+      const char *opt = (const char *)option->opt_text;
+      const char *none = "<none>";
+      const char *arg = decoded_options[i].arg;
+      HOST_WIDE_INT value = decoded_options[i].value;
+      switch (code)
+      {
+      case OPT_o:
+  fprintf(stderr, "gpli_init_options: OPT_o %i %s %s\n", OPT_o,opt,arg);
+  break;
+      default:
+  fprintf(stderr, "gpli_init_options: not handled option %i %x\n", code, opt);
+      }
+  }
+}
+
+/* By default, no language-specific options are valid.
+   Return true: Option handled.
+         false: Option not handled. Will produce an "unrecognized command-line option" message.
+ */
+bool
+gpli_handle_option (size_t code ,
+		   const char *arg,
+		   HOST_WIDE_INT value ATTRIBUTE_UNUSED,
+		   int kind ATTRIBUTE_UNUSED,
+		   location_t loc ATTRIBUTE_UNUSED,
+		   const struct cl_option_handlers *handlers ATTRIBUTE_UNUSED)
+{  bool out=true;
+
+      switch (code)
+      {
+      case OPT_I:
+  fprintf(stderr, "gpli_handle_option: OPT_I %i %s\n", OPT_I,arg);
+  break;
+      case OPT_fgpli_verbose:
+  fprintf(stderr, "gpli_handle_option: OPT_fgpli-verbose %i\n", OPT_I);
+  flag_gpli_verbose=true;
+  break;
+      default: 
+      fprintf (stderr, "gpli_handle_option: unhandled code %li \n",code);
+      out=false;
+      }
+  return out;
+}
+
+bool
+gpli_post_options (const char ** (pfilename))
+{fprintf (stderr, "gpli_post_options: arg %s \n",pfilename[0]);
+  /* Excess precision other than "fast" requires front-end
+     support.  */
+  flag_excess_precision = EXCESS_PRECISION_FAST;
+  return false;
+}
+
+/* See langhooks-def.h */
+
 #undef LANG_HOOKS_NAME
-#define LANG_HOOKS_NAME "Gpli"
+#define LANG_HOOKS_NAME "GNU PL/I"
+
+#undef LANG_HOOKS_OPTION_LANG_MASK
+#define LANG_HOOKS_OPTION_LANG_MASK gpli_langhook_option_lang_mask
 
 #undef LANG_HOOKS_INIT
 #define LANG_HOOKS_INIT gpli_langhook_init
 
 #undef LANG_HOOKS_PARSE_FILE
 #define LANG_HOOKS_PARSE_FILE gpli_langhook_parse_file
+
+#undef LANG_HOOKS_INIT_OPTIONS_STRUCT
+#define LANG_HOOKS_INIT_OPTIONS_STRUCT gpli_init_options_struct
+
+#undef LANG_HOOKS_INIT_OPTIONS
+#define LANG_HOOKS_INIT_OPTIONS gpli_init_options
+
+#undef LANG_HOOKS_HANDLE_OPTION
+#define LANG_HOOKS_HANDLE_OPTION gpli_handle_option
+
+#undef LANG_HOOKS_POST_OPTIONS
+#define LANG_HOOKS_POST_OPTIONS gpli_post_options
 
 #undef LANG_HOOKS_TYPE_FOR_MODE
 #define LANG_HOOKS_TYPE_FOR_MODE gpli_langhook_type_for_mode
