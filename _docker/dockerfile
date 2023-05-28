@@ -84,6 +84,6 @@ RUN mkdir gcc-build gcc-install
 
 # Build c and c++ from source
 RUN cd src-gcc && ./contrib/download_prerequisites 
-RUN cd gcc-build && ../src-gcc/configure --prefix=/gcc-install --disable-multilib --enable-languages=c,c++,gpli,tiny
+RUN cd gcc-build && ../src-gcc/configure --prefix=/gcc-install --disable-multilib --enable-languages=c,c++,gpli,tiny,rust
 RUN cd gcc-build && make -j
 RUN cd gcc-build && make -j install
