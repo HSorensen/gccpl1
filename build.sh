@@ -28,7 +28,7 @@ fi
 full=""
 
 if [ "$full" -eq "" ]; then
-docker run --rm --hostname gccpli -it -v $PWD/workdir:/workdir -v $PWD/src-gcc-gpli:/src-gcc/gcc/gpli itsme/gccpl1y
+docker run --rm --hostname gccpli -it -v $PWD/workdir:/workdir -v $PWD/src-gcc-gpli:/src-gcc/gcc/gpli $IMAGENAME
 else
 docker run --rm --hostname gccpli -it -v $PWD/workdir:/workdir \
   -v $PWD/src-antlr/src-parser/cmake:/src-antlr/src-parser/cmake \
