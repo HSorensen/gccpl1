@@ -1,5 +1,3 @@
-ARG ANTLR_TOOL=antlr4-4.13.1-SNAPSHOT-complete.jar
-
 #
 # Debian - base image
 #
@@ -17,7 +15,7 @@ RUN apt --yes install openjdk-11-jdk
 
 
 #
-# antlr4 - Build
+# antlr4 Tool - Build
 #
 FROM base as build_antlr4
 # build antlr tool based on antlr fork:
@@ -34,6 +32,7 @@ RUN mkdir /opt/antlr4
 # See https://github.com/antlr/antlr4/blob/master/doc/building-antlr.md
 RUN git clone -b lexerinclude --single-branch https://github.com/HSorensen/antlr4.git /opt/antlr4
 RUN cd /opt/antlr4 && mvn -DskipTests install --projects tool --also-make >mvn-install.log
+RUN cp /opt/antlr4/tool/target/antlr4-*-SNAPSHOT-complete.jar /opt/antlr4/tool/target/antlr4-tool.jar
 # Antlr Tool is in /opt/antlr4/tool/target/antlr4-4.7.2-SNAPSHOT-complete.jar
 # run with: java  -jar ./antlr4-4.7.2-SNAPSHOT-complete.jar
 
@@ -45,7 +44,7 @@ FROM base as gccpli-dev
 ARG ANTLR_TOOL
 
 # Prepare runtime
-COPY --from=build_antlr4 /opt/antlr4/tool/target/${ANTLR_TOOL} /usr/local/lib/${ANTLR_TOOL}
+COPY --from=build_antlr4 /opt/antlr4/tool/target/antlr4-tool.jar /usr/local/lib/antlr4-tool.jar
 
 # Install GCC and G++
 RUN apt --yes install gcc g++ gdb bison flex file texinfo make pkgconf util-linux uuid-dev nano linux-headers-amd64
@@ -53,9 +52,9 @@ RUN apt --yes install gcc g++ gdb bison flex file texinfo make pkgconf util-linu
 RUN pip install cmake
 
 # Setup runtime alias and classpath
-RUN echo "alias antlr4='java -jar /usr/local/lib/${ANTLR_TOOL}'" > /etc/profile.d/antlr4_alias.sh \
+RUN echo "alias antlr4='java -jar /usr/local/lib/antlr4-tool.jar'" > /etc/profile.d/antlr4_alias.sh \
  && echo "alias grun='java org.antlr.v4.gui.TestRig'" >> /etc/profile.d/antlr4_alias.sh \
- && echo "export CLASSPATH='.:/usr/local/lib/${ANTLR_TOOL}:$CLASSPATH'" >> /etc/profile.d/antlr4_alias.sh
+ && echo "export CLASSPATH='.:/usr/local/lib/antlr4-tool.jar:$CLASSPATH'" >> /etc/profile.d/antlr4_alias.sh
 
 COPY src-antlr /src-antlr
 

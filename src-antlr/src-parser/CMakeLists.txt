@@ -32,7 +32,8 @@ include_directories(${ANTLR4_INCLUDE_DIRS})
 # this is not required if the jar file can be found under PATH environment
 # set(ANTLR_EXECUTABLE /home/user/antlr-4.10.1-complete.jar)
 # set(ANTLR_EXECUTABLE /usr/local/lib/antlr4-4.10.2-SNAPSHOT-complete.jar)
-set(ANTLR_EXECUTABLE /usr/local/lib/antlr4-4.13.1-SNAPSHOT-complete.jar)
+# set(ANTLR_EXECUTABLE /usr/local/lib/antlr4-4.13.1-SNAPSHOT-complete.jar)
+set(ANTLR_EXECUTABLE /usr/local/lib/antlr4-tool.jar)
 # add macros to generate ANTLR Cpp code from grammar
 find_package(ANTLR REQUIRED)
 
