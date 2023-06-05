@@ -1,4 +1,4 @@
-ARG ANTLR_TOOL=antlr4-4.12.1-SNAPSHOT-complete.jar
+ARG ANTLR_TOOL=antlr4-4.13.1-SNAPSHOT-complete.jar
 
 #
 # Debian - base image
