@@ -75,15 +75,13 @@ add_library(gpliantlr
 target_link_libraries(gpliantlr antlr4_static)
 
 # Headers
-# Note dest is /usr/local/include/antlr/src/
+# Destination for header files is /usr/local/include/antlr/
 install( 
    DIRECTORY ${ANTLR4_INCLUDE_DIRS} DESTINATION include/antlr FILES_MATCHING PATTERN "*.h"
     )
-# Note dest is /usr/local/include/antlr/Pl1Parser/
 install( 
    DIRECTORY ${ANTLR_GnuPl1Parser_OUTPUT_DIR} DESTINATION include/antlr FILES_MATCHING PATTERN "Pl1Parser.h"
     )
-# Note dest is /usr/local/include/antlr/Pl1Lexer/
 install( 
    DIRECTORY ${ANTLR_GnuPl1Lexer_OUTPUT_DIR} DESTINATION include/antlr FILES_MATCHING PATTERN "Pl1Lexer.h"
     )
